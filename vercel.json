@@ -1,0 +1,16 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "header",
+          "key": "User-Agent",
+          "value": "(?i).*(httrack|wget|curl|python|scrapy|webcopy|teleport|offline|sitesucker|urllib).*"
+        }
+      ],
+      "destination": "/404",
+      "permanent": false
+    }
+  ]
+}

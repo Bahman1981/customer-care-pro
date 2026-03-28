@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<!-- PWA: أضف هذه الأسطر الأربعة -->
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#3b82f6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="خدمة العملاء">
+<link rel="stylesheet" href="./pwa.css">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com https://api.anthropic.com https://*.supabase.co wss://*.supabase.co; img-src 'self' data: blob: https:; connect-src 'self' https://api.anthropic.com https://*.supabase.co wss://*.supabase.co;">
+<title>Customer Care System v1.0</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPCEtLSBCYWNrZ3JvdW5kIGNpcmNsZSAtLT4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojM2I4MmY2Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzFkNGVkOCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9InVybCgjYmcpIi8+CiAgPCEtLSBIZWFkIHNpbGhvdWV0dGUgLS0+CiAgPGNpcmNsZSBjeD0iMzIiIGN5PSIyMiIgcj0iOSIgZmlsbD0iI2ZmZiIvPgogIDwhLS0gSGVhZHNldCBhcmMgLS0+CiAgPHBhdGggZD0iTTE4IDI2IFExOCAxMyAzMiAxMyBRNDYgMTMgNDYgMjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8IS0tIExlZnQgZWFyIGN1cCAtLT4KICA8cmVjdCB4PSIxNCIgeT0iMjQiIHdpZHRoPSI3IiBoZWlnaHQ9IjEwIiByeD0iMy41IiBmaWxsPSIjZmZmIi8+CiAgPCEtLSBSaWdodCBlYXIgY3VwIC0tPgogIDxyZWN0IHg9IjQzIiB5PSIyNCIgd2lkdGg9IjciIGhlaWdodD0iMTAiIHJ4PSIzLjUiIGZpbGw9IiNmZmYiLz4KICA8IS0tIE1pYyBhcm0gLS0+CiAgPHBhdGggZD0iTTQzIDMyIFE0NyAzNiA0NCA0MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPCEtLSBNaWMgZG90IC0tPgogIDxjaXJjbGUgY3g9IjQ0IiBjeT0iNDMiIHI9IjIuNSIgZmlsbD0iI2ZmZiIvPgogIDwhLS0gQ2hhdCBidWJibGUgaGludCAtLT4KICA8cGF0aCBkPSJNMjAgNDYgUTIwIDQxIDI2IDQxIEwzOCA0MSBRNDQgNDEgNDQgNDYgUTQ0IDUxIDM4IDUxIEwyNiA1MSBRMjAgNTEgMjAgNDZaIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjUpIi8+CiAgPGNpcmNsZSBjeD0iMjciIGN5PSI0NiIgcj0iMS41IiBmaWxsPSIjZmZmIi8+CiAgPGNpcmNsZSBjeD0iMzIiIGN5PSI0NiIgcj0iMS41IiBmaWxsPSIjZmZmIi8+CiAgPGNpcmNsZSBjeD0iMzciIGN5PSI0NiIgcj0iMS41IiBmaWxsPSIjZmZmIi8+Cjwvc3ZnPgo=">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+
+
+<!-- استدعاء المكتبة محلياً لتجاوز أي حظر شبكة -->
+<script src="supabase.js"></script>
+<script>
+  if(typeof window.supabase === 'undefined') {
+    document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/supabase/2.39.3/supabase.min.js"><\/script>');
+  }
+</script>
+<script>
+  if(typeof window.supabase === 'undefined') {
+    document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"><\/script>');
+  }
+</script>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- FORCE CHANGE PASSWORD MODAL -->
+<div class="modal-ov" id="forceChangePassModal" style="z-index:9999;">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-hd">
+      <div class="modal-title">🔐 تغيير كلمة المرور الافتراضية</div>
+    </div>
+    <div style="padding:6px 0 14px;font-size:13px;color:var(--s500);line-height:1.8;">
+      ⚠️ أنت تستخدم كلمة المرور الافتراضية. يجب تغييرها قبل المتابعة.
+    </div>
+    <div class="fg"><label class="lbl">كلمة المرور الجديدة</label>
+      <div style="position:relative;"><input class="inp" id="forceNewPass" maxlength="64" type="password" placeholder="••••••••" style="padding-left:40px;"/><span onclick="togglePassVis('forceNewPass',this)" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:15px;color:var(--s400);">👁</span></div>
+    </div>
+    <div class="fg"><label class="lbl">تأكيد كلمة المرور</label>
+      <div style="position:relative;"><input class="inp" id="forceConfirmPass" maxlength="64" type="password" placeholder="••••••••" style="padding-left:40px;"/><span onclick="togglePassVis('forceConfirmPass',this)" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:15px;color:var(--s400);">👁</span></div>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="doForceChangePass()" style="margin-top:8px;">💾 حفظ وتسجيل الدخول</button>
+  </div>
+</div>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen" style="display:flex;min-height:100vh;align-items:center;justify-content:center;background:linear-gradient(145deg,#0f172a 0%,#1e3a8a 55%,#1e40af 100%);position:relative;overflow-x:hidden;overflow-y:auto;padding:28px 16px;">
+  <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(147,197,253,.07) 1px,transparent 1px);background-size:30px 30px;pointer-events:none"></div>
+
+  <div id="loginLanding" style="position:relative;z-index:1;width:100%;max-width:860px;">
+
+    <!-- ── Header ── -->
+    <div style="text-align:center;margin-bottom:32px;">
+      <div style="width:68px;height:68px;border-radius:18px;margin:0 auto 14px;box-shadow:0 10px 32px rgba(37,99,235,.55);overflow:hidden;">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPCEtLSBCYWNrZ3JvdW5kIGNpcmNsZSAtLT4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojM2I4MmY2Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzFkNGVkOCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9InVybCgjYmcpIi8+CiAgPCEtLSBIZWFkIHNpbGhvdWV0dGUgLS0+CiAgPGNpcmNsZSBjeD0iMzIiIGN5PSIyMiIgcj0iOSIgZmlsbD0iI2ZmZiIvPgogIDwhLS0gSGVhZHNldCBhcmMgLS0+CiAgPHBhdGggZD0iTTE4IDI2IFExOCAxMyAzMiAxMyBRNDYgMTMgNDYgMjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8IS0tIExlZnQgZWFyIGN1cCAtLT4KICA8cmVjdCB4PSIxNCIgeT0iMjQiIHdpZHRoPSI3IiBoZWlnaHQ9IjEwIiByeD0iMy41IiBmaWxsPSIjZmZmIi8+CiAgPCEtLSBSaWdodCBlYXIgY3VwIC0tPgogIDxyZWN0IHg9IjQzIiB5PSIyNCIgd2lkdGg9IjciIGhlaWdodD0iMTAiIHJ4PSIzLjUiIGZpbGw9IiNmZmYiLz4KICA8IS0tIE1pYyBhcm0gLS0+CiAgPHBhdGggZD0iTTQzIDMyIFE0NyAzNiA0NCA0MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPCEtLSBNaWMgZG90IC0tPgogIDxjaXJjbGUgY3g9IjQ0IiBjeT0iNDMiIHI9IjIuNSIgZmlsbD0iI2ZmZiIvPgogIDwhLS0gQ2hhdCBidWJibGUgaGludCAtLT4KICA8cGF0aCBkPSJNMjAgNDYgUTIwIDQxIDI2IDQxIEwzOCA0MSBRNDQgNDEgNDQgNDYgUTQ0IDUxIDM4IDUxIEwyNiA1MSBRMjAgNTEgMjAgNDZaIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjUpIi8+CiAgPGNpcmNsZSBjeD0iMjciIGN5PSI0NiIgcj0iMS41IiBmaWxsPSIjZmZmIi8+CiAgPGNpcmNsZSBjeD0iMzIiIGN5PSI0NiIgcj0iMS41IiBmaWxsPSIjZmZmIi8+CiAgPGNpcmNsZSBjeD0iMzciIGN5PSI0NiIgcj0iMS41IiBmaWxsPSIjZmZmIi8+Cjwvc3ZnPgo=" alt="Customer Care" style="width:100%;height:100%;display:block;">
+      </div>
+      <h1 style="font-size:26px;font-weight:900;color:#fff;margin-bottom:4px;font-family:Cairo,sans-serif;letter-spacing:-.3px;">Customer Care System</h1>
+      <p style="font-size:12.5px;color:rgba(147,197,253,.75);font-family:Cairo,sans-serif;">نظام متكامل لخدمة العملاء — الإصدار 1.0</p>
+    </div>
+
+    <!-- ── Two side-by-side cards ── -->
+    <div id="loginCardsGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch;">
+<style>
+@media (max-width: 640px) {
+  #loginLanding { padding: 0 4px; }
+  #loginLanding h1 { font-size: 20px !important; }
+  #loginCardsGrid { grid-template-columns: 1fr !important; gap: 14px !important; }
+  #cardLogin, #cardClient { padding: 22px 18px 18px !important; border-radius: 16px !important; }
+  .id-giant { font-size: 22px !important; letter-spacing: 3px !important; }
+}
+@media (min-width: 641px) and (max-width: 860px) {
+  #loginCardsGrid { grid-template-columns: 1fr 1fr; gap: 14px; }
+  #cardLogin, #cardClient { padding: 24px 20px 18px !important; }
+}
+</style>
+
+      <!-- ▌ CARD 1 — Login (Blue) ▌ -->
+      <div id="cardLogin" style="background:linear-gradient(160deg,#1e3a8a 0%,#1d4ed8 100%);border-radius:22px;padding:30px 28px 24px;box-shadow:0 20px 56px rgba(15,23,42,.45);border:1px solid rgba(147,197,253,.18);box-sizing:border-box;">
+
+        <!-- card header -->
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.12);">
+          <div style="width:42px;height:42px;background:rgba(255,255,255,.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🔑</div>
+          <div>
+            <div style="font-size:16px;font-weight:800;color:#fff;font-family:Cairo,sans-serif;">تسجيل الدخول</div>
+            <div style="font-size:10.5px;color:rgba(147,197,253,.75);font-family:Cairo,sans-serif;">للمدير والموظف</div>
+          </div>
+        </div>
+
+        <!-- role badge -->
+        <div id="loginRoleBadge" style="display:none;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:8px 12px;margin-bottom:14px;font-family:Cairo,sans-serif;">
+          <span id="loginRoleIcon" style="font-size:17px;"></span>
+          <div>
+            <div id="loginRoleTitle" style="font-size:11.5px;font-weight:700;color:#fff;"></div>
+            <div id="loginRoleSub"   style="font-size:10px;color:rgba(147,197,253,.8);"></div>
+          </div>
+          <span id="loginRolePill" style="margin-right:auto;padding:2px 9px;border-radius:20px;font-size:9px;font-weight:700;background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.25);"></span>
+        </div>
+
+        <!-- fields -->
+        <div style="margin-bottom:12px;">
+          <label style="display:block;font-size:11.5px;font-weight:700;color:rgba(255,255,255,.8);margin-bottom:5px;font-family:Cairo,sans-serif;">اسم المستخدم</label>
+          <input class="inp" id="loginUser" placeholder="أدخل اسم المستخدم"
+            autocomplete="username" autocorrect="off" autocapitalize="off" spellcheck="false"
+            oninput="previewLoginRole(this.value)"
+            style="background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);color:#fff;"/>
+        </div>
+        <div style="margin-bottom:16px;">
+          <label style="display:block;font-size:11.5px;font-weight:700;color:rgba(255,255,255,.8);margin-bottom:5px;font-family:Cairo,sans-serif;">كلمة المرور</label>
+          <div style="position:relative;">
+            <input class="inp" id="loginPass" maxlength="64" type="password" placeholder="••••••••"
+              style="padding-left:40px;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);color:#fff;"
+              onkeydown="if(event.key==='Enter')doLogin()"/>
+            <span onclick="togglePassVis('loginPass',this)" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:15px;color:rgba(255,255,255,.5);">👁</span>
+          </div>
+        </div>
+
+        <button class="btn btn-full btn-lg" onclick="doLogin()" aria-label="تسجيل الدخول"
+          style="background:rgba(255,255,255,.18);color:#fff;border:1.5px solid rgba(255,255,255,.3);font-size:14px;font-weight:800;backdrop-filter:blur(4px);transition:all .2s;"
+          onmouseover="this.style.background='rgba(255,255,255,.28)'" onmouseout="this.style.background='rgba(255,255,255,.18)'">
+          🔑 &nbsp;دخول
+        </button>
+
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12.5px;color:rgba(255,255,255,.75);margin:12px 0 2px;padding:9px 12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;user-select:none;font-family:Cairo,sans-serif;" id="rememberMeLabel">
+          <input type="checkbox" id="rememberMe" style="accent-color:#60a5fa;cursor:pointer;width:15px;height:15px;"
+            onchange="this.closest('label').style.background=this.checked?'rgba(255,255,255,.15)':'rgba(255,255,255,.08)';document.getElementById('rememberMeNote').style.display=this.checked?'block':'none';"/>
+          <span style="font-weight:600;">🔒 تذكّرني</span>
+          <span style="font-size:10.5px;color:#93c5fd;margin-right:auto;background:rgba(96,165,250,.2);padding:1px 8px;border-radius:10px;font-weight:700;">7 أيام</span>
+        </label>
+        <p id="rememberMeNote" style="display:none;text-align:center;font-size:10.5px;color:#bfdbfe;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 10px;margin-top:6px;">✅ سيتم تسجيل دخولك تلقائياً خلال 7 أيام</p>
+        <p style="text-align:center;font-size:10px;color:rgba(147,197,253,.6);margin-top:6px;" id="loginHint"></p>
+      </div>
+      <!-- end card login -->
+
+      <!-- ▌ CARD 2 — Client (Teal/Green) ▌ -->
+      <div id="cardClient" style="background:linear-gradient(160deg,#064e3b 0%,#065f46 50%,#047857 100%);border-radius:22px;padding:30px 28px 24px;box-shadow:0 20px 56px rgba(4,78,59,.5);border:1px solid rgba(52,211,153,.18);box-sizing:border-box;">
+
+        <!-- card header -->
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.12);">
+          <div style="width:42px;height:42px;background:rgba(255,255,255,.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🔍</div>
+          <div>
+            <div style="font-size:16px;font-weight:800;color:#fff;font-family:Cairo,sans-serif;">استعلام العملاء</div>
+            <div style="font-size:10.5px;color:rgba(110,231,183,.8);font-family:Cairo,sans-serif;">استعلام فوري بدون تسجيل دخول</div>
+          </div>
+        </div>
+
+        <div style="text-align:center;margin-bottom:18px;">
+          <div style="font-size:11.5px;color:rgba(167,243,208,.85);font-family:Cairo,sans-serif;line-height:1.7;">أدخل رقم هويتك الوطنية<br>للحصول على بياناتك فوراً</div>
+        </div>
+
+        <input class="id-giant" id="clientIdInput" type="text" inputmode="numeric"
+          placeholder="0000000000" maxlength="20" autocomplete="off"
+          oninput="this.value=this.value.replace(/\D/g,'')"
+          onkeydown="if(event.key==='Enter')clientSearch()"
+          style="background:rgba(255,255,255,.1);border:2px solid rgba(52,211,153,.35);color:#fff;letter-spacing:6px;"/>
+
+        <button class="btn btn-full btn-lg" id="clientSearchBtn" onclick="clientSearch()" aria-label="بحث"
+          style="background:rgba(255,255,255,.18);color:#fff;border:1.5px solid rgba(52,211,153,.4);font-size:14px;font-weight:800;margin-top:8px;backdrop-filter:blur(4px);transition:all .2s;"
+          onmouseover="this.style.background='rgba(255,255,255,.28)'" onmouseout="this.style.background='rgba(255,255,255,.18)'">
+          🔍 &nbsp;استعلم الآن
+        </button>
+
+        <div id="clientResultBox" class="result-box" style="margin-top:16px;">
+          <div class="result-hd">
+            <div class="result-av">👤</div>
+            <div>
+              <div style="font-size:16px;font-weight:700;" id="cResName">—</div>
+              <div style="font-size:11px;opacity:.75;direction:ltr;" id="cResId">—</div>
+            </div>
+            <button onclick="resetClientSearch()" style="margin-right:auto;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);color:#fff;padding:4px 12px;border-radius:7px;cursor:pointer;font-family:Cairo,sans-serif;font-size:11px;font-weight:600;">🔄 جديد</button>
+          </div>
+          <div class="result-body">
+            <div class="ai-text" id="cResText"></div>
+            <div id="cResTags" style="margin-top:12px;"></div>
+          </div>
+        </div>
+
+        <!-- hint badges -->
+        <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;">
+          <div style="flex:1;text-align:center;background:rgba(255,255,255,.08);border:1px solid rgba(52,211,153,.2);border-radius:10px;padding:8px 6px;font-family:Cairo,sans-serif;">
+            <div style="font-size:16px;">🪪</div>
+            <div style="font-size:10px;color:rgba(167,243,208,.9);margin-top:2px;">رقم الهوية فقط</div>
+          </div>
+          <div style="flex:1;text-align:center;background:rgba(255,255,255,.08);border:1px solid rgba(52,211,153,.2);border-radius:10px;padding:8px 6px;font-family:Cairo,sans-serif;">
+            <div style="font-size:16px;">⚡</div>
+            <div style="font-size:10px;color:rgba(167,243,208,.9);margin-top:2px;">نتائج فورية</div>
+          </div>
+          <div style="flex:1;text-align:center;background:rgba(255,255,255,.08);border:1px solid rgba(52,211,153,.2);border-radius:10px;padding:8px 6px;font-family:Cairo,sans-serif;">
+            <div style="font-size:16px;">🔒</div>
+            <div style="font-size:10px;color:rgba(167,243,208,.9);margin-top:2px;">بياناتك فقط</div>
+          </div>
+        </div>
+
+      </div>
+      <!-- end card client -->
+
+    </div><!-- end grid -->
+
+    <!-- ── Footer ── -->
+    <div style="margin-top:22px;text-align:center;font-family:Cairo,sans-serif;line-height:1.9;">
+      <div style="font-size:11.5px;color:rgba(255,255,255,.55);">جميع الحقوق محفوظة &copy; 2026 &nbsp;|&nbsp; Customer Care System v1.0</div>
+      <div style="font-size:11.5px;color:rgba(255,255,255,.55);"><strong style="color:#93c5fd;">Ahmed Bahman Mohamed</strong> &nbsp;|&nbsp; 📧 <a href="mailto:abm9966@gmail.com" style="color:#60a5fa;text-decoration:none;">abm9966@gmail.com</a></div>
+    </div>
+
+  </div><!-- end loginLanding -->
+
+  <!-- Legacy hidden boxes kept for JS compatibility -->
+  <div id="loginBox" style="display:none;"></div>
+  <div id="clientBox" style="display:none;"></div>
+  <!-- hidden tab refs for JS compatibility -->
+  <div id="tabLogin"  style="display:none;"></div>
+  <div id="tabClient" style="display:none;"></div>
+  <button id="tabBtnLogin"  style="display:none;"></button>
+  <button id="tabBtnClient" style="display:none;"></button>
+</div>
+
+<!-- APP SHELL -->
+<div id="appShell" class="app u-hidden">
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-icon" id="sbLogoIcon"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPCEtLSBCYWNrZ3JvdW5kIGNpcmNsZSAtLT4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojM2I4MmY2Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzFkNGVkOCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9InVybCgjYmcpIi8+CiAgPCEtLSBIZWFkIHNpbGhvdWV0dGUgLS0+CiAgPGNpcmNsZSBjeD0iMzIiIGN5PSIyMiIgcj0iOSIgZmlsbD0iI2ZmZiIvPgogIDwhLS0gSGVhZHNldCBhcmMgLS0+CiAgPHBhdGggZD0iTTE4IDI2IFExOCAxMyAzMiAxMyBRNDYgMTMgNDYgMjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8IS0tIExlZnQgZWFyIGN1cCAtLT4KICA8cmVjdCB4PSIxNCIgeT0iMjQiIHdpZHRoPSI3IiBoZWlnaHQ9IjEwIiByeD0iMy41IiBmaWxsPSIjZmZmIi8+CiAgPCEtLSBSaWdodCBlYXIgY3VwIC0tPgogIDxyZWN0IHg9IjQzIiB5PSIyNCIgd2lkdGg9IjciIGhlaWdodD0iMTAiIHJ4PSIzLjUiIGZpbGw9IiNmZmYiLz4KICA8IS0tIE1pYyBhcm0gLS0+CiAgPHBhdGggZD0iTTQzIDMyIFE0NyAzNiA0NCA0MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPCEtLSBNaWMgZG90IC0tPgogIDxjaXJjbGUgY3g9IjQ0IiBjeT0iNDMiIHI9IjIuNSIgZmlsbD0iI2ZmZiIvPgogIDwhLS0gQ2hhdCBidWJibGUgaGludCAtLT4KICA8cGF0aCBkPSJNMjAgNDYgUTIwIDQxIDI2IDQxIEwzOCA0MSBRNDQgNDEgNDQgNDYgUTQ0IDUxIDM4IDUxIEwyNiA1MSBRMjAgNTEgMjAgNDZaIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjUpIi8+CiAgPGNpcmNsZSBjeD0iMjciIGN5PSI0NiIgcj0iMS41IiBmaWxsPSIjZmZmIi8+CiAgPGNpcmNsZSBjeD0iMzIiIGN5PSI0NiIgcj0iMS41IiBmaWxsPSIjZmZmIi8+CiAgPGNpcmNsZSBjeD0iMzciIGN5PSI0NiIgcj0iMS41IiBmaWxsPSIjZmZmIi8+Cjwvc3ZnPgo=" alt="logo" style="width:100%;height:100%;object-fit:cover;border-radius:8px;"></div>
+      <div><div class="sb-logo-text" id="sbLogoText">Customer Care</div><div class="sb-logo-sub" id="sbLogoSub">Customer Care</div></div>
+    </div>
+    <!-- Theme bar -->
+    <div class="theme-bar">
+      <span style="font-size:9px;color:rgba(255,255,255,.3);font-weight:700;letter-spacing:1px;margin-left:4px;">ثيم:</span>
+      <div class="theme-dot active" style="background:#3b82f6" title="أزرق" onclick="setTheme('')" id="td-blue"></div>
+      <div class="theme-dot" style="background:#22c55e" title="أخضر" onclick="setTheme('green')" id="td-green"></div>
+      <div class="theme-dot" style="background:#a855f7" title="بنفسجي" onclick="setTheme('purple')" id="td-purple"></div>
+      <div class="theme-dot" style="background:#f43f5e" title="أحمر" onclick="setTheme('red')" id="td-red"></div>
+      <div class="theme-dot" style="background:#14b8a6" title="زيتي" onclick="setTheme('teal')" id="td-teal"></div>
+    </div>
+    <div class="sb-switch-emp" id="sbSwitchEmp">
+      <div class="sb-sec-hd">🔁 تبديل الحساب</div>
+      <div id="sbSwitchList"></div>
+    </div>
+    <nav class="sb-nav">
+      <div id="navAdmin" class="u-hidden">
+        <div class="nav-item" onclick="showPage('users',this)"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> إدارة الموظفين</div>
+        <div class="nav-item" onclick="showPage('permissions',this)"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span> الصلاحيات</div>
+        <div class="nav-item" onclick="showPage('settings',this)"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> الإعدادات</div>
+        <div class="nav-item" onclick="showPage('search',this)"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span> البحث الذكي</div>
+        <div class="nav-item" onclick="showPage('dashboard',this)"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span> لوحة التحكم</div>
+        <div class="nav-item" onclick="showPage('reports',this)"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> التقارير المرئية</div>
+        <div class="nav-item" onclick="showPage('history',this)"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> سجل الاستعلامات <span class="nav-badge" id="historyCount">0</span></div>
+        <div class="nav-item" onclick="showPage('audit',this)"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span> سجل التدقيق <span class="nav-badge" id="auditCount">0</span></div>
+        <div class="nav-item" onclick="showPage('export',this)"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span> تصدير النتائج</div>
+      </div>
+      <div id="navSubuser" class="u-hidden">
+        <div class="sb-sec">الرسائل</div>
+        <div class="nav-item" id="navItemWhatsapp" onclick="showPage('whatsapp',this)"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> إرسال الرسائل</div>
+        <div class="sb-sec">الرئيسية</div>
+        <div class="nav-item" onclick="showPage('emp-dashboard',this)"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span> لوحة الإحصائيات</div>
+        <div class="sb-sec">الاستعلامات</div>
+        <div class="nav-item" id="navItemFiles" onclick="showPage('files',this)"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span> رفع الملفات <span class="nav-badge" id="filesCountE">0</span></div>
+        <div class="nav-item" id="navItemSearch" onclick="showPage('search',this)"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span> البحث الذكي</div>
+        <div class="nav-item" id="navItemHistory" onclick="showPage('history',this)"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> سجل الاستعلامات</div>
+        <div class="nav-item" id="navItemExport" onclick="showPage('export',this)"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span> تصدير النتائج</div>
+        <div class="nav-item" id="navItemMyAudit" onclick="showPage('my-audit',this)"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span> سجل نشاطي</div>
+        <div class="sb-sec">الحساب</div>
+        <div class="nav-item" onclick="openChangeMyPass()"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg></span> تغيير كلمة المرور</div>
+      </div>
+    </nav>
+    <div class="sb-footer">
+      <button class="sb-help-btn" onclick="openHelpGuide()" aria-label="دليل الاستخدام" title="تعليمات الاستخدام">
+        <span class="sb-help-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </span>
+        تعليمات الاستخدام
+        <span class="sb-help-badge">دليلك</span>
+      </button>
+      <div class="user-card">
+        <div class="user-av" id="sbAvatar" style="background:var(--b600);color:#fff;">A</div>
+        <div><div class="user-name" id="sbName">Admin</div><div class="user-role" id="sbRole">مدير النظام</div></div>
+        <button type="button" class="logout-btn" onclick="doLogout()">⏏️ خروج</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+    <div id="impersonateBar" style="display:none;background:linear-gradient(90deg,#7c3aed,#5b21b6);color:#fff;padding:8px 24px;font-size:12.5px;font-family:Cairo,sans-serif;align-items:center;gap:10px;font-weight:700;">
+      <span>🔁 أنت الآن تعمل كـ: <span id="impersonateName" style="color:#e9d5ff;"></span></span>
+      <button onclick="exitImpersonate()" style="margin-inline-start:auto;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;padding:4px 14px;border-radius:7px;cursor:pointer;font-family:Cairo,sans-serif;font-size:12px;font-weight:700;">↩️ العودة</button>
+    </div>
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="mob-menu-btn" id="mobMenuBtn" onclick="toggleMobSidebar()" aria-label="القائمة الجانبية"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+        <div class="topbar-title"><h2 id="topbarTitle">لوحة التحكم</h2><p id="topbarSub">مرحباً بك في نظام الردود الذكية</p></div>
+      </div>
+      <div class="topbar-actions"><button class="btn btn-secondary btn-sm pdf-export-btn" onclick="exportPDF()" style="gap:5px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> PDF</button>
+        <button class="dark-toggle" id="darkToggleBtn" onclick="toggleDark()" aria-label="تبديل الوضع الداكن" title="الوضع المظلم">🌙</button>
+        <button id="inboxBtn" onclick="openInbox()" style="position:relative;background:none;border:none;cursor:pointer;font-size:18px;padding:4px 6px;" title="الرسائل الداخلية">📩<span id="inboxBadge" style="display:none;position:absolute;top:0;right:0;background:#10b981;color:#fff;font-size:9px;font-weight:700;border-radius:50%;width:16px;height:16px;line-height:16px;text-align:center;font-family:Cairo,sans-serif;">0</span></button>
+        <button id="notifBtn" onclick="toggleNotifPanel()" style="position:relative;background:none;border:none;cursor:pointer;font-size:18px;padding:4px 6px;" title="الإشعارات">🔔<span id="notifBadge" style="display:none;position:absolute;top:0;right:0;background:#ef4444;color:#fff;font-size:9px;font-weight:700;border-radius:50%;width:16px;height:16px;line-height:16px;text-align:center;font-family:Cairo,sans-serif;">0</span></button>
+        <div id="notifPanel" style="display:none;position:fixed;top:60px;left:50%;transform:translateX(-50%);width:min(320px,92vw);max-height:400px;overflow-y:auto;background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.18);z-index:999;font-family:Cairo,sans-serif;"><div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;"><span style="font-weight:700;font-size:13px;">🔔 الإشعارات</span><button onclick="clearNotifs()" style="background:none;border:none;font-size:11px;color:var(--b500);cursor:pointer;font-family:Cairo,sans-serif;">مسح الكل</button></div><div id="notifList" style="padding:8px;"></div></div>
+        <span class="role-badge" id="topbarBadge">Admin</span>
+        <button type="button" class="btn btn-danger btn-sm" onclick="doLogout()">⏏️ خروج</button>
+      </div>
+    </div>
+
+    <div id="autoLogoutBar" class="auto-logout-bar">⚠️ سيتم تسجيل خروجك تلقائياً بعد <span id="autoLogoutCount">60</span> ثانية من عدم النشاط. <button onclick="resetAutoLogout()" style="background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.5);color:#fff;padding:3px 12px;border-radius:6px;cursor:pointer;font-family:Cairo,sans-serif;font-size:12px;margin-right:10px;">تمديد الجلسة</button></div>
+    <div class="page-body">
+
+      <!-- DASHBOARD -->
+      <div class="page active" id="page-dashboard">
+        <div class="g4 section-gap">
+          <div class="stat" style="--sc:rgba(59,130,246,.15);"><div class="stat-lbl">إجمالي الملفات</div><div class="stat-val" id="statFiles">0</div><div class="stat-sub">ملفات مرفوعة</div><div class="stat-ico" style="background:var(--b100);">📁</div></div>
+          <div class="stat" style="--sc:rgba(16,185,129,.12);"><div class="stat-lbl">إجمالي السجلات</div><div class="stat-val" id="statRecords">0</div><div class="stat-sub">سجل عميل</div><div class="stat-ico" style="background:rgba(16,185,129,.1);">📝</div></div>
+          <div class="stat" style="--sc:rgba(245,158,11,.12);"><div class="stat-lbl">الاستعلامات</div><div class="stat-val" id="statQueries">0</div><div class="stat-sub">إجمالي الاستعلامات</div><div class="stat-ico" style="background:rgba(245,158,11,.1);">🔍</div></div>
+          <div class="stat" style="--sc:rgba(124,58,237,.12);"><div class="stat-lbl">الموظفون</div><div class="stat-val" id="statUsers">2</div><div class="stat-sub">حساب نشط</div><div class="stat-ico" style="background:rgba(124,58,237,.1);">👥</div></div>
+        </div>
+        <div class="g2">
+          <div class="card"><div class="card-hd"><div class="card-title"><div class="card-icon">📁</div> الملفات المرفوعة</div></div><div id="dashFiles"><div style="text-align:center;padding:28px;color:var(--s400);">📂 لم يتم رفع أي ملفات بعد</div></div></div>
+          <div class="card"><div class="card-hd"><div class="card-title"><div class="card-icon">📋</div> آخر الاستعلامات</div></div><div id="dashActivity"><div style="text-align:center;padding:28px;color:var(--s400);">🔍 لا توجد استعلامات بعد</div></div></div>
+        </div>
+      </div>
+
+      <!-- ★ REPORTS PAGE ★ -->
+      <div class="page" id="page-reports">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;"><div style="font-size:15px;font-weight:700;color:var(--s800);">التقارير المرئية</div><div style="display:flex;gap:6px;background:var(--b50);border:1px solid var(--b200);border-radius:10px;padding:4px;"><button class="btn btn-sm rf-btn active" id="rf-week" onclick="setReportFilter('week',this)" style="border-radius:7px;">أسبوعي</button><button class="btn btn-sm rf-btn" id="rf-month" onclick="setReportFilter('month',this)" style="border-radius:7px;">شهري</button><button class="btn btn-sm rf-btn" id="rf-year" onclick="setReportFilter('year',this)" style="border-radius:7px;">سنوي</button><button class="btn btn-sm rf-btn" id="rf-all" onclick="setReportFilter('all',this)" style="border-radius:7px;">الكل</button></div></div><div class="date-filter-bar"><label>من:</label><input type="date" id="rfDateFrom" onchange="renderReports()"><label>إلى:</label><input type="date" id="rfDateTo" onchange="renderReports()"><button class="btn btn-sm btn-secondary" onclick="document.getElementById('rfDateFrom').value='';document.getElementById('rfDateTo').value='';renderReports();">✕ مسح</button></div>
+        <div class="g2 section-gap">
+          <div class="card"><div class="card-hd"><div class="card-title"><div class="card-icon">📊</div> الاستعلامات (ناجح / فاشل)</div></div><div class="chart-wrap"><button class="chart-dl-btn" onclick="downloadChart('chartSuccessFail','ناجح-فاشل')">⬇ PNG</button><canvas id="chartSuccessFail"></canvas></div></div>
+          <div class="card"><div class="card-hd"><div class="card-title"><div class="card-icon">👥</div> استعلامات حسب الموظف</div></div><div class="chart-wrap"><button class="chart-dl-btn" onclick="downloadChart('chartByUser','الموظفون')">⬇ PNG</button><canvas id="chartByUser"></canvas></div></div>
+        </div>
+        <div class="g2 section-gap">
+          <div class="card"><div class="card-hd"><div class="card-title"><div class="card-icon">📈</div> الاستعلامات اليومية (آخر 7 أيام)</div></div><div class="chart-wrap"><button class="chart-dl-btn" onclick="downloadChart('chartDaily','يومي')">⬇ PNG</button><canvas id="chartDaily"></canvas></div></div>
+          <div class="card"><div class="card-hd"><div class="card-title"><div class="card-icon">📁</div> السجلات حسب الملف</div></div><div class="chart-wrap"><button class="chart-dl-btn" onclick="downloadChart('chartFiles','الملفات')">⬇ PNG</button><canvas id="chartFiles"></canvas></div></div>
+        </div>
+      </div>
+
+      <!-- FILES -->
+      <div class="page" id="page-files">
+        <div class="card section-gap" id="uploadCard">
+          <div class="card-hd"><div class="card-title"><div class="card-icon">📤</div> رفع ملفات بيانات العملاء</div><div class="flex gap-2"><button class="btn btn-secondary btn-sm" onclick="downloadTemplate()">📥 نموذج Excel</button><button class="btn btn-outline btn-sm" onclick="downloadTemplateCsv()">📄 نموذج CSV</button></div></div>
+          <div class="g5 section-gap">
+            <div class="col-card c-id"><div class="col-num">1</div><div class="col-icon">🪪</div><div class="col-name">رقم الهوية</div><div class="col-desc">مفتاح البحث</div></div>
+            <div class="col-card c-msg"><div class="col-num">2</div><div class="col-icon">💬</div><div class="col-name">الرسالة 1</div><div class="col-desc">الرسالة الرئيسية</div></div>
+            <div class="col-card c-name"><div class="col-num">3</div><div class="col-icon">👤</div><div class="col-name">الاسم</div><div class="col-desc">اسم العميل</div></div>
+            <div class="col-card c-extra"><div class="col-num">4</div><div class="col-icon">📎</div><div class="col-name">رسالة 2</div><div class="col-desc">رسالة إضافية</div></div>
+            <div class="col-card c-extra2"><div class="col-num">5</div><div class="col-icon">📌</div><div class="col-name">رسالة 3</div><div class="col-desc">رسالة تكميلية</div></div>
+          </div>
+          <div class="upload-zone" id="uploadZoneMain"><input type="file" id="fileInputMain" accept=".xlsx,.xls,.csv" multiple/><div style="font-size:38px;margin-bottom:9px;">📊</div><div style="font-size:13.5px;color:var(--s500);">اسحب ملفات Excel / CSV أو <strong style="color:var(--b600);">اضغط للاختيار</strong></div></div>
+          <div id="colMapSection" style="display:none;margin-top:18px;">
+            <div style="font-weight:700;font-size:13.5px;color:var(--s800);padding-top:14px;border-top:1px solid var(--border);margin-bottom:14px;">🔗 ضبط أعمدة: <span id="mapFileName" style="color:var(--b600);"></span></div>
+            <div class="g2"><div class="fg"><label class="lbl">عمود رقم الهوية <span class="req">*</span></label><select class="inp" id="colId"></select></div><div class="fg"><label class="lbl">عمود الاسم</label><select class="inp" id="colName"></select></div></div>
+            <div class="fg"><label class="lbl">الأعمدة المُدرجة في الرد</label><div id="extraColsWrap" style="display:flex;flex-wrap:wrap;gap:7px;margin-top:5px;"></div></div>
+            <div class="fg"><label class="lbl">قالب الرد</label><textarea class="inp" id="promptTemplate">أنت مساعد ذكي متخصص. بناءً على بيانات الشخص التالية، قدّم ردًا مخصصًا ومفيدًا باللغة العربية.</textarea></div>
+            <div class="flex gap-3"><button class="btn btn-primary" onclick="saveFileConfig()">💾 حفظ وإضافة الملف</button><button class="btn btn-outline" onclick="cancelMapping()">إلغاء</button></div>
+          </div>
+        </div>
+        <div class="card"><div class="card-hd"><div class="card-title"><div class="card-icon">📂</div> الملفات المحملة</div><span class="chip chip-b" id="filesBadge">0 ملف</span></div><div id="filesTableWrap"><div class="u-empty-state">📂 لا توجد ملفات.</div></div><div id="filesPagination" class="pagination"></div></div>
+      </div>
+
+      <!-- SEARCH -->
+      <div class="page" id="page-search">
+        <div class="card section-gap">
+          <div class="card-hd"><div class="card-title"><div class="card-icon">🔍</div> البحث الذكي برقم الهوية</div></div>
+          <div class="fg"><label class="lbl">اختر الملف</label><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;"><select class="inp" id="searchFileSelect" style="max-width:300px;" onchange="checkAdminFileDownload()"><option value="">— اختر ملف —</option></select><button id="adminDownloadFileBtn" class="btn btn-outline btn-sm" style="display:none; padding:8px 12px;" onclick="downloadSelectedSearchFile()">📥 تحميل الملف</button><label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;font-weight:600;color:var(--b600);white-space:nowrap;"><input type="checkbox" id="globalSearchToggle" onchange="toggleGlobalSearch(this.checked)" style="accent-color:var(--b500);width:15px;height:15px;cursor:pointer;"/> 🌐 بحث شامل في جميع الملفات</label><span id="globalSearchHint" style="font-size:11px;color:var(--s400);display:none;">يبحث في <b id="globalSearchFilesCount">0</b> ملف</span></div></div>
+          <div class="fg"><label class="lbl">مفتاح Anthropic API (اختياري)</label><div style="display:flex;gap:7px;max-width:480px;"><input class="inp" type="password" id="apiKey" placeholder="sk-ant-api03-..." class="u-ltr"/><button class="btn btn-outline btn-sm" onclick="togglePassVis('apiKey',null)">👁</button></div><div class="hint">اتركه فارغًا للوضع التجريبي</div></div>
+          <div class="adv-search-row"><input type="text" class="inp" id="searchInput" inputmode="numeric" maxlength="200" placeholder="رقم الهوية..." autocomplete="off" style="flex:2;font-size:15px;font-weight:600;text-align:center;letter-spacing:2px;border-radius:13px;padding:13px 18px;" onkeydown="if(event.key==='Enter'){document.getElementById('globalSearchToggle')?.checked?handleGlobalSearch():handleSearch()}"/><input type="text" class="inp" id="searchInputName" maxlength="60" placeholder="الاسم (اختياري)..." style="flex:1;font-size:13px;" onkeydown="if(event.key==='Enter'){document.getElementById('globalSearchToggle')?.checked?handleGlobalSearch():handleSearch()}"/><input type="text" class="inp" id="searchInputPhone" inputmode="tel" maxlength="15" placeholder="الجوال (اختياري)..." style="flex:1;font-size:13px;" onkeydown="if(event.key==='Enter'){document.getElementById('globalSearchToggle')?.checked?handleGlobalSearch():handleSearch()}"/><button class="btn btn-primary btn-lg" id="searchBtn" onclick="document.getElementById('globalSearchToggle')?.checked?handleGlobalSearch():handleSearch()" style="padding:0 22px;"><span id="searchBtnTxt">🔍 بحث</span></button></div>
+        </div>
+        <div id="searchCountBanner" style="display:none;padding:8px 14px;margin-bottom:10px;background:var(--b50);border:1px solid var(--b200);border-radius:10px;font-size:13px;font-weight:600;color:var(--b700);align-items:center;gap:10px;flex-wrap:wrap;"><span id="searchCountText"></span><span id="searchCountFile" style="font-size:11px;font-weight:400;color:var(--s400);"></span></div><div id="resResult" class="res-result">
+          <div class="res-person"><div class="res-av">👤</div><div><div style="font-size:17px;font-weight:700;" id="resName">—</div><div style="font-size:11.5px;opacity:.75;direction:ltr;" id="resId">—</div></div><div style="margin-right:auto;"><button class="btn btn-sm" style="background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.24);" onclick="exportSingle()" title="تصدير إلى Excel">📥 تصدير</button><button class="btn btn-sm" style="background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.24);" onclick="copyResult()" title="نسخ بيانات النتيجة">📋 نسخ</button></div></div>
+          <div class="res-body"><div class="ai-text" id="resText"></div><div class="data-chips" id="resTags"></div></div>
+        </div>
+        <div id="searchResultsPagination" class="pagination" style="margin-top:10px;"></div><div id="globalResContainer" style="display:none;margin-top:18px;"><div style="font-size:14px;font-weight:700;color:var(--s800);margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">🌐 نتائج البحث الشامل <span id="globalResCount" class="chip chip-b">0</span><span id="globalResFileCount" style="font-size:11px;color:var(--s400);"></span><button class="btn btn-outline btn-sm" style="margin-inline-start:auto;" onclick="exportGlobalResults()">📥 تصدير Excel</button></div><div id="globalResList"></div></div>
+      </div>
+
+      <!-- HISTORY -->
+      <div class="page" id="page-history">
+        <div class="date-filter-bar" style="margin-bottom:14px;"><label>من:</label><input type="date" id="histDateFrom" onchange="renderHistory()"><label>إلى:</label><input type="date" id="histDateTo" onchange="renderHistory()"><input type="text" class="inp" id="histSearch" placeholder="🔍 بحث بالهوية أو المستخدم..." style="max-width:200px;padding:5px 10px;font-size:12px;" oninput="renderHistory()"><button class="btn btn-sm btn-secondary" onclick="clearHistFilter()">✕ مسح</button></div>
+        <div class="card"><div class="card-hd"><div class="card-title"><div class="card-icon">📋</div> سجل الاستعلامات</div><div class="flex gap-2"><button class="fs-btn" onclick="toggleFullscreen(this.closest('.card'))">⛶</button><button class="btn btn-secondary btn-sm" onclick="exportHistory()">📥 Excel</button><button class="btn btn-outline btn-sm" onclick="exportHistoryPDF()">📄 PDF</button><button class="btn btn-danger btn-sm" onclick="clearHistory()" aria-label="مسح السجل">🗑 مسح</button></div></div><div id="historyWrap"><div class="u-empty-state">لا توجد استعلامات بعد</div></div><div id="historyPagination" class="pagination"></div></div>
+      </div>
+
+      <!-- MY AUDIT (صفحة سجل نشاط الموظف) -->
+      <div class="page" id="page-my-audit">
+        <div class="card">
+          <div class="card-hd">
+            <div class="card-title"><div class="card-icon">🛡️</div> سجل نشاطي</div>
+            <div class="flex gap-2">
+              <select class="inp" id="myAuditFilter" style="max-width:160px;padding:5px 10px;font-size:12px;" onchange="renderMyAudit()">
+                <option value="all">كل الأنشطة</option>
+                <option value="login">🔑 دخول</option>
+                <option value="logout">🚪 خروج</option>
+                <option value="search">🔍 بحث</option>
+                <option value="export">📥 تصدير</option>
+                <option value="upload">📤 رفع</option>
+                <option value="pass">🔒 كلمة مرور</option>
+              </select>
+            </div>
+          </div>
+          <div style="font-size:12px;color:var(--s500);margin-bottom:12px;padding:8px 12px;background:var(--b50);border-radius:8px;border:1px solid var(--b200);">
+            ℹ️ يعرض هذا السجل الأحداث المتعلقة بحسابك فقط — تسجيل الدخول، الاستعلامات، التصدير، وتغيير كلمة المرور.
+          </div>
+          <div id="myAuditWrap"><div class="u-empty-state">🛡️ لا توجد أحداث لحسابك بعد</div></div>
+          <div id="myAuditPagination" class="pagination"></div>
+        </div>
+      </div>
+
+      <!-- EXPORT -->
+      <div class="page" id="page-export">
+        <div class="g2">
+          <div class="card"><div class="card-hd"><div class="card-title"><div class="card-icon">📤</div> تصدير البيانات</div></div><div class="fg"><label class="lbl">اختر الملف</label><select class="inp" id="exportFileSelect"><option value="all">كل الملفات</option></select></div><div class="fg"><label class="lbl">نوع التصدير</label><select class="inp" id="exportType"><option value="xlsx">Excel</option><option value="csv">CSV</option><option value="json">JSON</option></select></div><div class="fg"><div style="display:flex;flex-direction:column;gap:5px;"><label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:12.5px;"><input type="checkbox" id="expData" checked style="accent-color:var(--b500);">بيانات الملف</label><label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:12.5px;"><input type="checkbox" id="expHistory" checked style="accent-color:var(--b500);">سجل الاستعلامات</label><label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:12.5px;"><input type="checkbox" id="expResponses" checked style="accent-color:var(--b500);">الردود الذكية</label></div></div><button class="btn btn-success btn-full" onclick="doExport()" aria-label="تصدير البيانات">📥 تصدير الآن</button></div>
+          <div class="card"><div class="card-hd"><div class="card-title"><div class="card-icon">📊</div> إحصائيات</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;"><div style="background:var(--b50);border:1px solid var(--b200);border-radius:var(--r);padding:12px;text-align:center;"><div style="font-size:22px;font-weight:800;color:var(--b700);" id="expStatFilesVal">0</div><div style="font-size:10.5px;color:var(--s500);font-weight:600;">📁 الملفات</div></div><div style="background:#f0fdf4;border:1px solid #a7f3d0;border-radius:var(--r);padding:12px;text-align:center;"><div style="font-size:22px;font-weight:800;color:#059669;" id="expStatRecordsVal">0</div><div style="font-size:10.5px;color:var(--s500);font-weight:600;">📝 السجلات</div></div></div><div id="exportStats"><div class="activity-item"><div class="activity-dot" style="background:var(--b400)"></div><div><div style="font-size:12.5px;">إجمالي الاستعلامات</div><div class="font-bold" id="expTotal">0</div></div></div><div class="activity-item"><div class="activity-dot" style="background:var(--ok)"></div><div><div style="font-size:12.5px;">ناجحة</div><div class="font-bold" id="expSuccess">0</div></div></div><div class="activity-item"><div class="activity-dot" style="background:var(--err)"></div><div><div style="font-size:12.5px;">فاشلة</div><div class="font-bold" id="expFail">0</div></div></div><div class="activity-item"><div class="activity-dot" style="background:var(--warn)"></div><div><div style="font-size:12.5px;">آخر استعلام</div><div class="font-bold" id="expLast">—</div></div></div></div><div style="margin-top:12px;display:flex;gap:7px;flex-wrap:wrap;"><button class="btn btn-primary btn-sm u-flex1" onclick="exportStatsReport('xlsx')">📥 Excel</button><button class="btn btn-outline btn-sm u-flex1" onclick="exportStatsReport('csv')">📄 CSV</button></div><button class="btn btn-danger btn-full" style="margin-top:8px;" onclick="clearHistory()">🗑 مسح السجل</button></div>
+        </div>
+      </div>
+
+      <!-- USERS -->
+      <div class="page" id="page-users">
+        <div class="g3 section-gap"><div class="stat" style="--sc:rgba(239,68,68,.12);"><div class="stat-lbl">مدراء النظام</div><div class="stat-val" id="countAdmins">1</div><div class="stat-ico" style="background:rgba(239,68,68,.1);">👑</div></div><div class="stat" style="--sc:rgba(245,158,11,.12);"><div class="stat-lbl">الموظفون</div><div class="stat-val" id="countSubusers">1</div><div class="stat-ico" style="background:rgba(245,158,11,.1);">👤</div></div><div class="stat" style="--sc:rgba(16,185,129,.12);"><div class="stat-lbl">إجمالي</div><div class="stat-val" id="countTotal">2</div><div class="stat-ico" style="background:rgba(16,185,129,.1);">🔢</div></div></div>
+        <div class="card"><div class="card-hd"><div class="card-title"><div class="card-icon">👥</div> سجل الموظفين</div><button class="fs-btn" style="margin-left:auto;margin-right:8px;" onclick="toggleFullscreen(this.closest('.card'))">⛶</button><button class="btn btn-primary btn-sm" onclick="openAddUserModal()" aria-label="إضافة مستخدم">➕ تسجيل مستخدم</button></div><div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;"><button class="filter-tab active" onclick="filterUsers('all',this)">الكل</button><button class="filter-tab" onclick="filterUsers('admin',this)">👑 مدراء</button><button class="filter-tab" onclick="filterUsers('subuser',this)">👤 موظفون</button><input type="text" class="inp" id="usersSearchInput" placeholder="🔍 بحث بالاسم أو المستخدم..." style="max-width:220px;padding:5px 10px;font-size:12px;margin-right:auto;" oninput="_debouncedRenderUsers()"/></div><div id="usersTableWrap"></div></div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="page" id="page-settings">
+        <div class="backup-section"><div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--b200);"><div class="card-icon">💾</div><div style="font-size:14px;font-weight:700;">النسخ الاحتياطي والاستعادة</div></div><div style="display:flex;gap:10px;flex-wrap:wrap;"><button class="btn btn-primary" onclick="exportBackup()" aria-label="تصدير نسخة احتياطية">📦 تصدير نسخة احتياطية</button><label class="btn btn-secondary" style="cursor:pointer;">📂 استعادة نسخة<input type="file" accept=".json" onchange="importBackup(this)" class="u-hidden"></label></div><p style="font-size:11px;color:var(--s500);margin-top:8px;">يشمل: المستخدمين، الإعدادات، سجل الاستعلامات، وسجل التدقيق.</p></div>
+
+        <div class="g2">
+          <div class="card"><div class="card-hd"><div class="card-title"><div class="card-icon">🤖</div> الذكاء الاصطناعي</div></div>
+<div class="fg">
+  <label class="lbl">تفعيل الذكاء الاصطناعي (استعلام العملاء)</label>
+  <div style="display:flex; align-items:center; gap:8px; margin-top:8px; margin-bottom:16px;">
+    <input type="checkbox" id="enableAiToggle" style="accent-color:var(--b500);width:18px;height:18px;cursor:pointer;">
+    <label for="enableAiToggle" style="cursor:pointer; font-weight:600;">تفعيل الردود الذكية (تأخذ 3-7 ثوانٍ)</label>
+  </div>
+</div>
+<div class="fg"><label class="lbl">مفتاح Anthropic API</label><input class="inp" type="password" id="settingsApiKey" placeholder="sk-ant-..." class="u-ltr"/></div><div class="fg"><label class="lbl">القالب الافتراضي</label><textarea class="inp" id="defaultTemplate">أنت مساعد ذكي متخصص. بناءً على بيانات الشخص التالية، قدّم ردًا مخصصًا ومفيدًا باللغة العربية.</textarea></div><button class="btn btn-primary btn-full" onclick="saveSettings()">💾 حفظ الإعدادات</button></div>
+          <div class="card"><div class="card-hd"><div class="card-title"><div class="card-icon">🏢</div> هوية الشركة</div></div>
+            <div style="display:flex;align-items:center;gap:16px;padding:14px;background:var(--b50);border-radius:var(--r);border:1px dashed var(--border);margin-bottom:14px;">
+              <div id="logoPreviewWrap" style="width:64px;height:64px;border-radius:12px;background:var(--b100);display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;flex-shrink:0;border:2px solid var(--border);"><span id="logoPreviewEmoji">🏢</span><img id="logoPreviewImg" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:10px;"/ loading="lazy"></div>
+              <div><div id="logoPreviewName" style="font-weight:700;font-size:14px;color:var(--s800);">اسم شركتك</div><div style="font-size:11px;color:var(--s400);margin-top:2px;">يظهر في الشريط الجانبي</div></div>
+            </div>
+            <div class="fg"><label class="lbl">اسم الشركة</label><input class="inp" type="text" id="settingsOrgName" maxlength="80" placeholder="مثال: شركة النور للتقنية" oninput="previewOrgName(this.value)"/></div>
+            <div class="fg"><label class="lbl">شعار الشركة (رابط)</label><input class="inp" type="url" id="settingsOrgLogoUrl" placeholder="https://..." oninput="previewOrgLogo('url',this.value)" style="direction:ltr;font-size:12px;"/></div>
+            <div class="fg"><label style="cursor:pointer;display:flex;align-items:center;gap:6px;background:var(--b100);border:1px solid var(--border);padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;color:var(--b700);width:fit-content;">📁 رفع صورة<input type="file" accept="image/*" onchange="previewOrgLogo('file',this)" class="u-hidden"/></label></div>
+            <div class="flex gap-2"><button class="btn btn-primary u-flex1" onclick="saveSettings()">💾 حفظ</button><button class="btn btn-danger btn-sm" onclick="clearOrgLogo()">🗑 حذف الشعار</button></div>
+          </div>
+        </div>
+        <!-- بطاقة إعدادات واتساب -->
+        <div class="card" style="margin-top:18px;">
+          <div class="card-hd"><div class="card-title"><div class="card-icon">💬</div> إعدادات واتساب</div></div>
+          <div class="g2">
+            <div class="fg">
+              <label class="lbl">الحد الأقصى للرسائل / ساعة</label>
+              <input class="inp" type="number" id="settingsWaLimit" min="1" max="200" value="40" style="max-width:min(140px,100%);"/>
+              <div class="hint">القيمة الافتراضية: 40 رسالة/ساعة. غيّرها حسب سياسة واتساب في منشأتك.</div>
+            </div>
+            <div class="fg">
+              <label class="lbl">تأخير الإرسال الجماعي (ثانية)</label>
+              <input class="inp" type="number" id="settingsWaDelay" min="5" max="120" value="15" style="max-width:min(140px,100%);"/>
+              <div class="hint">الحد الأدنى للتأخير بين الرسائل (15–20 ث افتراضياً).</div>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="saveWaSettings()">💾 حفظ إعدادات واتساب</button>
+        </div>
+        <!-- بطاقة بيانات مدير النظام -->
+        <div class="card" style="margin-top:18px;grid-column:1/-1;">
+          <div class="card-hd"><div class="card-title"><div class="card-icon">👑</div> بيانات حساب مدير النظام</div></div>
+          <div class="g2" style="margin-bottom:14px;">
+            <div class="fg"><label class="lbl">اسم المستخدم الجديد</label><input class="inp" type="text" id="adminNewUsername" maxlength="30" placeholder="أدخل اسم المستخدم الجديد" autocomplete="off"/></div>
+            <div class="card" style="margin-bottom:18px;background:linear-gradient(135deg,#0f172a,#1e3a8a);border:1px solid rgba(96,165,250,.25);">
+              <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                <div style="font-size:28px;">🔗</div>
+                <div style="flex:1">
+                  <div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:4px;">إعداد Supabase — المزامنة السحابية</div>
+                  <div style="font-size:11.5px;color:rgba(147,197,253,.8);">أدخل بيانات Supabase لتفعيل المزامنة بين جميع الأجهزة</div>
+                </div>
+                <span id="sbStatusBadge" style="padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;background:rgba(239,68,68,.2);color:#fca5a5;border:1px solid rgba(239,68,68,.35);">⚫ غير متصل</span>
+              </div>
+              <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px;" class="g2-sb-cfg">
+                <div class="fg" style="margin:0;grid-column:1/-1;"><label class="lbl" style="color:rgba(147,197,253,.9);">🌐 Supabase URL</label>
+                  <input class="inp" id="sbUrlInput" placeholder="https://xyz.supabase.co" style="direction:ltr;font-family:monospace;" oninput="updateSBStatus()"/>
+                </div>
+                <div class="fg" style="margin:0;grid-column:1/-1;"><label class="lbl" style="color:rgba(147,197,253,.9);">🔑 Anon Key</label>
+                  <input class="inp" id="sbKeyInput" type="password" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." style="direction:ltr;font-family:monospace;" oninput="updateSBStatus()"/>
+                  <button onclick="togglePassVis('sbKeyInput',this)" style="background:none;border:none;cursor:pointer;font-size:13px;color:var(--b400);float:left;margin-top:3px;">👁 إظهار</button>
+                </div>
+              </div>
+              <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
+                <button onclick="saveSBConfig()" class="btn btn-primary">💾 حفظ وتطبيق</button>
+                <button onclick="testSBConnection()" id="sbTestBtn" class="btn btn-secondary" disabled style="opacity:0.45;cursor:not-allowed;">🔌 اختبار الاتصال</button>
+                <a href="https://supabase.com/dashboard" target="_blank" class="btn btn-outline">📖 فتح Supabase Dashboard</a>
+              </div>
+            </div>
+            <div class="fg"><label class="lbl">📧 البريد الإلكتروني (تنبيهات الاختراق)</label><input class="inp" type="email" id="adminAlertEmail" maxlength="100" placeholder="admin@example.com" class="u-ltr" autocomplete="off"/></div>
+            <div class="fg"><label class="lbl">كلمة المرور الحالية (للتحقق)</label><input class="inp" type="password" id="adminCurrentPass" maxlength="64" placeholder="مطلوب لتأكيد الهوية" autocomplete="off"/></div>
+            <div class="fg"></div>
+            <div class="fg"><label class="lbl">كلمة المرور الجديدة</label><input class="inp" type="password" id="adminNewPass" maxlength="64" placeholder="اتركه فارغاً إن لم تريد التغيير" autocomplete="off"/></div>
+            <div class="fg"><label class="lbl">تأكيد كلمة المرور الجديدة</label><input class="inp" type="password" id="adminConfirmPass" maxlength="64" placeholder="أعد كتابة كلمة المرور الجديدة" autocomplete="off"/></div>
+          </div>
+          <button class="btn btn-primary btn-full" onclick="saveAdminProfile()">💾 حفظ بيانات المدير</button>
+        </div>
+        <!-- بطاقة إعادة ضبط ذاكرة التخزين -->
+        <div class="card" style="margin-top:18px;grid-column:1/-1;border:1.5px solid rgba(239,68,68,.25);">
+          <div class="card-hd">
+            <div class="card-title"><div class="card-icon">🔄</div> إعادة ضبط بيانات المستخدمين المحلية</div>
+          </div>
+          <div style="font-size:12.5px;color:var(--s500);line-height:1.8;margin-bottom:14px;">
+            إذا واجه أحد الموظفين مشكلة <b>"كلمة المرور غير صحيحة"</b> بعد تغييرها، فذلك بسبب تعارض بيانات التشفير المحفوظة في المتصفح.<br>
+            انقر الزر أدناه لمسح الذاكرة المحلية للمستخدمين وإعادة تحميلها من أحدث نسخة.
+          </div>
+          <button class="btn btn-danger" style="max-width:280px;" onclick="resetUsersCache()">🔄 إعادة ضبط ذاكرة المستخدمين</button>
+        </div>
+      </div>
+
+      <!-- PERMISSIONS -->
+      <div class="page" id="page-permissions">
+        <div class="card">
+          <div class="card-hd">
+            <div class="card-title"><div class="card-icon">🔐</div> توزيع الصلاحيات على الموظفين</div>
+            <div class="flex gap-2">
+              <button class="btn btn-success btn-sm" onclick="saveAllPerms()" title="حفظ صلاحيات جميع الموظفين دفعة واحدة">💾 حفظ الكل</button>
+            </div>
+          </div>
+          <div style="font-size:12px;color:var(--s500);margin-bottom:14px;padding:9px 13px;background:var(--b50);border-radius:8px;border:1px solid var(--b200);">
+            🔑 فعّل أو أوقف وصول كل موظف لكل قسم. التغيير يُطبَّق فورياً بمجرد الحفظ. الصفحات المُوقفة تختفي من قائمة الموظف فوراً.
+          </div>
+          <div id="permsTableWrap"></div>
+        </div>
+      </div>
+
+      <!-- ★ AUDIT LOG PAGE ★ -->
+      <div class="page" id="page-audit">
+        <div class="card">
+          <div class="card-hd">
+            <div class="card-title"><div class="card-icon">🛡️</div> سجل تدقيق الأمان</div>
+            <div class="flex gap-2">
+              <select class="inp" id="auditFilter" style="width:min(160px,100%);" onchange="renderAudit()"><option value="all">كل الأحداث</option><option value="login">تسجيل الدخول</option><option value="upload">رفع الملفات</option><option value="search">الاستعلامات</option><option value="delete">الحذف</option><option value="export">التصدير</option><option value="warn">تحذيرات</option><option value="security">🚨 أمني</option></select>
+              <button class="btn btn-secondary btn-sm" onclick="exportAudit()">📥 تصدير</button>
+              <button class="btn btn-danger btn-sm" onclick="clearAudit()" aria-label="مسح سجل التدقيق">🗑 مسح</button>
+            </div>
+          </div>
+          <div id="auditWrap"><div class="u-empty-state">🛡️ لا توجد أحداث بعد</div></div>
+          <div id="auditPagination" class="pagination"></div>
+        </div>
+      </div>
+
+      <!-- EMP DASHBOARD -->
+      <div class="page" id="page-emp-dashboard">
+        <div class="g3 section-gap"><div class="stat" style="--sc:rgba(59,130,246,.15);"><div class="stat-lbl">إجمالي الملفات</div><div class="stat-val" id="empStatFiles">0</div><div class="stat-sub">ملفات مرفوعة</div><div class="stat-ico" style="background:var(--b100);">📁</div></div><div class="stat" style="--sc:rgba(16,185,129,.12);"><div class="stat-lbl">إجمالي السجلات</div><div class="stat-val" id="empStatRecords">0</div><div class="stat-sub">سجل عميل</div><div class="stat-ico" style="background:rgba(16,185,129,.1);">📝</div></div><div class="stat" style="--sc:rgba(245,158,11,.12);"><div class="stat-lbl">استعلاماتي</div><div class="stat-val" id="empStatQueries">0</div><div class="stat-sub">إجمالي استعلاماتي</div><div class="stat-ico" style="background:rgba(245,158,11,.1);">🔍</div></div></div>
+        <div class="g3 section-gap"><div class="stat" style="--sc:rgba(16,185,129,.12);"><div class="stat-lbl">ناجحة</div><div class="stat-val" id="empStatSuccess">0</div><div class="stat-ico" style="background:rgba(16,185,129,.1);">✅</div></div><div class="stat" style="--sc:rgba(239,68,68,.12);"><div class="stat-lbl">فاشلة</div><div class="stat-val" id="empStatFail">0</div><div class="stat-ico" style="background:rgba(239,68,68,.1);">❌</div></div><div class="stat" style="--sc:rgba(124,58,237,.12);"><div class="stat-lbl">آخر استعلام</div><div class="stat-val" style="font-size:16px;line-height:1.4;" id="empStatLast">—</div><div class="stat-ico" style="background:rgba(124,58,237,.1);">🕐</div></div></div>
+        <div class="g2">
+          <div class="card"><div class="card-hd"><div class="card-title"><div class="card-icon">📁</div> الملفات</div><button class="btn btn-primary btn-sm" onclick="showPage('files')">+ رفع</button></div><div id="empDashFiles"></div></div>
+          <div style="display:flex;flex-direction:column;gap:18px;"><div class="card"><div class="card-hd"><div class="card-title"><div class="card-icon">📋</div> آخر الاستعلامات</div></div><div id="empDashActivity"></div></div></div>
+        </div>
+      </div>
+
+      <!-- WHATSAPP -->
+      <div class="page" id="page-whatsapp">
+        <div class="wa-scope" id="wa-page-container">
+          <div class="tabs">
+            <div class="tab active" id="wa-tabMessages" onclick="switchTab('messages')">📨 رسائل WhatsApp</div>
+            <div class="tab" id="wa-tabTemplates" onclick="switchTab('templates')">📝 قوالب الرسائل</div>
+            <div class="tab" id="wa-tabMySettings" onclick="switchTab('mySettings')">⚙️ إعداداتي</div>
+            <div class="tab" id="wa-tabControl" onclick="switchTab('control')" style="display:none">⚙️ لوحة التحكم</div>
+          </div>
+          <div class="wa-main">
+            <!-- Messages Tab -->
+            <div id="wa-pageMessages">
+              <div class="stats-bar" id="wa-statsBar"></div>
+              <div class="toolbar">
+                <button class="wa-btn wb-primary" onclick="addRow()">➕ إضافة سجل</button>
+                <button class="wa-btn wb-tpl" id="wa-tplToggleBtn" onclick="toggleTplPanel()">📝 قوالب الرسائل</button>
+                <button class="wa-btn wb-bulk" onclick="openBulkModal()">📤 إرسال جماعي <span class="bulk-badge" id="wa-bulkBadge">0</span></button>
+                <button class="wa-btn wb-secondary" onclick="document.getElementById('wa-fileInput').click()">📥 استيراد Excel</button>
+                <button class="wa-btn wb-secondary" onclick="openImportFromSystemFiles()" title="استيراد من ملفات مرفوعة في النظام">🗂 من ملفات النظام</button>
+                <input type="file" id="wa-fileInput" accept=".xlsx,.xls,.csv" style="display:none" onchange="importFile(this)"/>
+                <button class="wa-btn wb-secondary" onclick="doExportCSV()">📊 تصدير Excel</button>
+                <button type="button" class="wa-btn wb-danger" onclick="clearAllWa()">🗑 مسح الكل</button>
+                <div class="wa-search-box"><span class="wa-search-icon">🔍</span><input type="text" id="wa-searchInput" placeholder="بحث..." oninput="_debouncedRenderWa()"/></div>
+              </div>
+              <!-- ★ Template Quick-Picker Panel ★ -->
+              <div class="wa-tpl-panel" id="wa-tplPanel">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                  <div style="font-size:13px;font-weight:700;color:#e8f5e9;">📝 اختر قالباً لتطبيقه على الصفوف المحددة (أو الكل)</div>
+                  <button onclick="toggleTplPanel()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#7cb88a;border-radius:7px;width:26px;height:26px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;">✕</button>
+                </div>
+                <div id="wa-tplPanelGrid" class="wa-tpl-grid"></div>
+                <div id="wa-tplPanelEmpty" style="text-align:center;padding:24px;color:#4a6b54;display:none;">
+                  <div style="font-size:28px;margin-bottom:6px;">📝</div>
+                  <div style="font-size:12px;">لا توجد قوالب. <button onclick="switchTab('templates')" style="background:none;border:none;color:#25D366;cursor:pointer;font-family:Cairo,sans-serif;font-size:12px;text-decoration:underline;">أضف قالباً الآن</button></div>
+                </div>
+              </div>
+              <div class="select-bar">
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:600;color:#7cb88a;"><input type="checkbox" class="row-check" id="wa-selectAll" onchange="toggleAll(this.checked)"/> تحديد الكل</label>
+                <span class="sel-count" id="wa-selCount">0 محدد</span>
+                <button type="button" class="wa-btn wb-danger" style="padding:5px 14px;font-size:12px;" onclick="deleteSelected()">🗑 حذف المحددة</button>
+                <button class="wa-btn wb-secondary" style="padding:5px 14px;font-size:12px;" onclick="markSelectedSent()">✅ تعليم كمرسلة</button>
+              </div>
+              <div class="blocked-banner" id="wa-blockedBanner"></div>
+              <div class="bulk-prog" id="wa-bulkProg"><div class="bulk-prog-label"><span>📤 <span id="wa-bulkProgText">جاري الإرسال...</span></span><div style="display:flex;align-items:center;gap:10px;"><span id="wa-bulkProgCount" style="color:#25D366;font-family:monospace;"></span><button onclick="stopBulkSend()" style="background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.4);color:#f87171;border-radius:6px;padding:3px 10px;font-size:12px;cursor:pointer;" id="wa-bulkStopBtn">⏹ إيقاف</button></div></div><div class="bulk-bar"><div class="bulk-bar-fill" id="wa-bulkBarFill"></div></div><div class="bulk-status-txt" id="wa-bulkStatusTxt"></div></div>
+              <div class="wa-scroll-bar" id="waScrollBar"><button class="wa-scroll-btn" onclick="waScrollTable('right')">&rarr;</button><div class="wa-scroll-track" id="waScrollTrack"><div class="wa-scroll-thumb" id="waScrollThumb"></div></div><button class="wa-scroll-btn" onclick="waScrollTable('left')">&larr;</button></div>
+              <div class="table-outer" id="waTableOuter"><div class="table-wrap" id="waTableWrap"><table><colgroup>
+  <col style="width:38px"><!-- ☑ -->
+  <col style="width:38px"><!-- # -->
+  <col style="width:160px"><!-- الجوال -->
+  <col style="width:130px"><!-- ملاحظات -->
+  <col style="width:180px"><!-- الاسم — موسّع -->
+  <col style="width:180px"><!-- رسالة 1 -->
+  <col style="width:150px"><!-- رسالة 2 -->
+  <col style="width:150px"><!-- رسالة 3 -->
+  <col style="width:75px"><!-- التكرار -->
+  <col style="width:90px"><!-- إرسال -->
+  <col style="width:90px"><!-- الحالة -->
+  <col style="width:85px"><!-- إجراءات -->
+</colgroup><thead id="wa-tableHead"></thead><tbody id="wa-tableBody"></tbody></table></div></div>
+              <p class="tbl-footer" id="wa-tblFooter">💡 روابط واتساب ويب • الأرقام بالصيغة الدولية مثال: 966501234567 • الحد الأقصى: <span id="wa-footerLimit">40</span> رسالة/ساعة</p>
+            </div>
+            <!-- ★ Templates Tab ★ -->
+            <div id="wa-pageTemplates" class="u-hidden">
+              <div class="tpl-page-grid">
+                <!-- RIGHT: Saved Templates List -->
+                <div class="tpl-list-col">
+                  <div class="tpl-list-header">
+                    <span class="tpl-list-title">📋 القوالب المحفوظة</span>
+                    <span class="tpl-list-count" id="tplCount">0</span>
+                  </div>
+                  <div id="tplGrid" class="tpl-list-scroll"></div>
+                  <div id="tplEmpty" class="tpl-empty-state">
+                    <div class="tpl-empty-icon">
+                      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="color:#2a3d31;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    </div>
+                    <div style="font-size:14px;color:#3a5a42;font-weight:600;margin-bottom:4px;">لا توجد قوالب محفوظة بعد</div>
+                    <div style="font-size:12px;color:#2a3d31;">أضف قالبك الأول من النموذج</div>
+                  </div>
+                </div>
+                <!-- LEFT: Add Template Form -->
+                <div class="tpl-form-col">
+                  <div class="tpl-form-card">
+                    <div class="tpl-form-header">
+                      <span style="font-size:20px;">✨</span>
+                      <span>إضافة قالب جديد</span>
+                    </div>
+                    <div class="tpl-form-body">
+                      <div class="tpl-field-group">
+                        <label class="tpl-field-label">اسم القالب <span style="color:#e74c3c;">*</span></label>
+                        <input type="text" id="tplName" class="tpl-input" placeholder="اسم القالب..."/>
+                      </div>
+                      <div class="tpl-field-group">
+                        <label class="tpl-field-label">
+                          <span class="tpl-msg-badge tpl-msg-1">1</span>
+                          الرسالة الأساسية <span style="color:#e74c3c;">*</span>
+                        </label>
+                        <textarea id="tplMsg1" rows="4" class="tpl-textarea tpl-textarea-1" placeholder="الرسالة الأساسية..."></textarea>
+                      </div>
+                      <div class="tpl-field-group">
+                        <label class="tpl-field-label">
+                          <span class="tpl-msg-badge tpl-msg-2">2</span>
+                          رسالة 2 <span style="color:#7cb88a;font-size:11px;">(اختياري)</span>
+                        </label>
+                        <textarea id="tplMsg2" rows="3" class="tpl-textarea tpl-textarea-2" placeholder="رسالة 2 (اختياري)..."></textarea>
+                      </div>
+                      <div class="tpl-field-group">
+                        <label class="tpl-field-label">
+                          <span class="tpl-msg-badge tpl-msg-3">3</span>
+                          رسالة 3 <span style="color:#7cb88a;font-size:11px;">(اختياري)</span>
+                        </label>
+                        <textarea id="tplMsg3" rows="3" class="tpl-textarea tpl-textarea-3" placeholder="رسالة 3 (اختياري)..."></textarea>
+                      </div>
+                      <button class="tpl-save-btn" onclick="saveTemplate()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                        حفظ القالب
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- My Settings Tab (Employee) -->
+            <div id="wa-pageMySettings" class="u-hidden">
+              <div style="max-width:560px;margin:28px auto;background:#111a16;border:1px solid #2a3d31;border-radius:16px;overflow:hidden;">
+                <div style="background:linear-gradient(135deg,#162118,#1d2b22);padding:16px 22px;border-bottom:1px solid #2a3d31;display:flex;align-items:center;gap:10px;">
+                  <span style="font-size:20px;">⚙️</span>
+                  <div>
+                    <div style="font-size:14px;font-weight:700;color:#e8f5e9;">إعدادات واتساب الشخصية</div>
+                    <div style="font-size:11px;color:#7cb88a;margin-top:2px;">يمكنك ضبط حدودك ضمن الحد الأقصى المسموح به من المدير</div>
+                  </div>
+                </div>
+                <div style="padding:24px 26px;display:flex;flex-direction:column;gap:20px;">
+
+                  <!-- Admin ceiling (info only) -->
+                  <div style="background:rgba(37,211,102,.05);border:1px solid rgba(37,211,102,.15);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:10px;">
+                    <span style="font-size:18px;">🔒</span>
+                    <div style="font-size:12px;color:#7cb88a;line-height:1.8;">
+                      الحد الأقصى المسموح من المدير:
+                      <b style="color:#25D366;font-size:14px;" id="emp-waAdminCeiling">—</b> رسالة/ساعة
+                      &nbsp;|&nbsp; الحد الأدنى للتأخير:
+                      <b style="color:#25D366;" id="emp-waAdminDelayCeiling">—</b> ث
+                    </div>
+                  </div>
+
+                  <!-- Usage bar -->
+                  <div style="background:#0d1510;border:1px solid #2a3d31;border-radius:10px;padding:14px 16px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                      <span style="font-size:12px;color:#7cb88a;font-weight:600;">⏱️ استخدامك هذه الساعة</span>
+                      <span style="font-size:13px;font-weight:700;color:#25D366;" id="emp-waUsageText">0 / —</span>
+                    </div>
+                    <div style="height:6px;background:#1d2b22;border-radius:3px;overflow:hidden;">
+                      <div id="emp-waUsageBar" style="height:100%;border-radius:3px;background:#25D366;width:0%;transition:width .4s,background .4s;"></div>
+                    </div>
+                  </div>
+
+                  <!-- Max per hour (editable, capped by admin) -->
+                  <div>
+                    <label style="font-size:13px;font-weight:700;color:#e8f5e9;display:block;margin-bottom:8px;">📨 حدّي الأقصى للرسائل / ساعة</label>
+                    <div style="display:flex;align-items:center;gap:12px;">
+                      <input type="number" id="emp-waMaxInp" min="1" value="40"
+                        style="width:110px;background:#0d1510;border:1.5px solid #2a3d31;border-radius:9px;padding:10px 14px;font-size:16px;font-weight:700;color:#25D366;text-align:center;font-family:Cairo,sans-serif;outline:none;"
+                        oninput="clampEmpMax(this)" onblur="clampEmpMax(this)"/>
+                      <div style="font-size:12px;color:#7cb88a;line-height:1.8;">
+                        رسالة كحد أقصى في الساعة<br>
+                        <span style="color:#4a6b54;font-size:11px;">لا يمكن تجاوز حد المدير</span>
+                      </div>
+                    </div>
+                    <div id="emp-waMaxHint" style="font-size:11.5px;color:#a3b8a8;margin-top:6px;"></div>
+                  </div>
+
+                  <!-- Delay setting (editable, capped by admin) -->
+                  <div>
+                    <label style="font-size:13px;font-weight:700;color:#e8f5e9;display:block;margin-bottom:8px;">⏳ تأخير الإرسال الجماعي (ثانية)</label>
+                    <div style="display:flex;align-items:center;gap:12px;">
+                      <input type="number" id="emp-waDelay" min="5" max="120" value="15"
+                        style="width:110px;background:#0d1510;border:1.5px solid #2a3d31;border-radius:9px;padding:10px 14px;font-size:16px;font-weight:700;color:#25D366;text-align:center;font-family:Cairo,sans-serif;outline:none;"
+                        oninput="clampEmpDelay(this)" onblur="clampEmpDelay(this)"/>
+                      <div style="font-size:12px;color:#7cb88a;line-height:1.8;">
+                        ثانية بين كل رسالة وأخرى<br>
+                        <span style="color:#4a6b54;font-size:11px;">يجب ألا يقل عن الحد الأدنى للنظام</span>
+                      </div>
+                    </div>
+                    <div id="emp-waDelayHint" style="font-size:11.5px;color:#a3b8a8;margin-top:6px;"></div>
+                  </div>
+
+                  <button onclick="saveEmpWaSettings()"
+                    style="background:linear-gradient(135deg,#25D366,#128C7E);border:none;color:#fff;font-family:Cairo,sans-serif;font-size:14px;font-weight:700;border-radius:11px;padding:13px 28px;cursor:pointer;display:flex;align-items:center;gap:8px;justify-content:center;transition:opacity .2s;"
+                    onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
+                    💾 حفظ إعداداتي
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Control Tab -->
+            <div id="wa-pageControl" class="u-hidden">
+              <div style="display:grid;grid-template-columns:1.1fr 0.9fr;gap:20px;" class="wa-2col-grid">
+                <div style="background:#111a16;border:1px solid #2a3d31;border-radius:12px;overflow:hidden;">
+                  <div style="background:linear-gradient(135deg,#162118,#1d2b22);padding:14px 20px;border-bottom:1px solid #2a3d31;font-size:14px;font-weight:700;color:#e8f5e9;display:flex;align-items:center;gap:8px;">👥 إدارة المستخدمين</div>
+                  <div style="padding:18px 20px;"><div id="wa-userList"></div></div>
+                </div>
+                <div style="background:#111a16;border:1px solid #2a3d31;border-radius:12px;overflow:hidden;">
+                  <div style="background:linear-gradient(135deg,#162118,#1d2b22);padding:14px 20px;border-bottom:1px solid #2a3d31;font-size:14px;font-weight:700;color:#e8f5e9;">📊 إحصائيات النظام</div>
+                  <div style="padding:18px 20px;" id="wa-cpStatsBody"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Bulk Modal -->
+          <div class="modal-overlay" id="wa-bulkModal"><div class="modal-card" style="max-width:480px;width:96%;"><div class="modal-big-icon">📤</div><h2>تأكيد الإرسال الجماعي</h2><p id="wa-bulkModalBody"></p><div id="wa-schedBox"><div style="font-size:13px;font-weight:700;color:#7cb88a;margin-bottom:10px;">⏰ جدولة الإرسال</div><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;"><label style="font-size:12px;color:#a3b8a8;">الإرسال بعد:</label><select id="wa-schedPreset" onchange="waSchedPresetChange()"><option value="0">الآن (فوري)</option><option value="15">15 دقيقة</option><option value="30">30 دقيقة</option><option value="60" selected>ساعة واحدة</option><option value="120">ساعتان</option><option value="180">3 ساعات</option><option value="360">6 ساعات</option><option value="custom">وقت مخصص...</option></select></div><div id="wa-schedCustomRow" style="display:none;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;"><label style="font-size:12px;color:#a3b8a8;">التاريخ والوقت:</label><input type="datetime-local" id="wa-schedDatetime"/></div><div id="wa-schedInfo" style="font-size:11.5px;color:#25D366;min-height:18px;"></div></div><div id="wa-schedCountdownBox" class="u-hidden"><div style="font-size:12px;color:#7cb88a;margin-bottom:4px;">⏳ الإرسال المجدول يبدأ بعد</div><div id="wa-schedCountdown">00:00:00</div><button onclick="cancelScheduledBulk()" style="margin-top:8px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);color:#f87171;padding:5px 18px;border-radius:8px;cursor:pointer;font-size:12px;font-family:Cairo,sans-serif;">❌ إلغاء الجدولة</button></div><div class="modal-actions"><button class="modal-btn modal-confirm" id="wa-schedConfirmBtn" onclick="scheduleOrSendBulk()">📅 جدولة / إرسال</button><button class="modal-btn modal-cancel" onclick="closeBulkModal()">إلغاء</button></div></div></div>
+          <!-- ★ Preview Modal ★ -->
+          <div class="wa-preview-overlay" id="wa-previewOverlay" onclick="closePreview(event)">
+            <div class="wa-preview-phone">
+              <div class="wa-preview-header"><div style="width:36px;height:36px;border-radius:50%;background:#128C7E;display:flex;align-items:center;justify-content:center;font-size:16px;">👤</div><div style="margin-right:10px;"><div style="font-size:13px;font-weight:700;" id="pvName">—</div><div style="font-size:10px;color:rgba(255,255,255,.6);">online</div></div><button onclick="closePreview()" style="margin-inline-start:auto;background:transparent;border:none;color:rgba(255,255,255,.6);font-size:18px;cursor:pointer;">✕</button></div>
+              <div class="wa-preview-body" id="pvBody"></div>
+            </div>
+          </div>
+          <div id="wa-tablePagination" class="pagination" style="margin:6px 0 4px;padding:0 2px;"></div>
+          <div id="wa-toastContainer"></div>
+        </div>
+      </div>
+
+    </div><!-- end page-body -->
+    <footer class="app-footer">
+      <div>جميع الحقوق محفوظة &copy; <span id="footerYear"></span></div>
+      <div><strong>Designed by / Ahmed Bahman Mohamed</strong></div>
+      <div>📧 <a href="mailto:abm9966@gmail.com" style="color:#60a5fa;text-decoration:none;">abm9966@gmail.com</a></div>
+      <div>Customer Care System v1.0</div>
+    </footer>
+  </div>
+</div>
+<div class="mob-overlay" id="mobOverlay" onclick="toggleMobSidebar()"></div>
+
+<!-- MODALS -->
+<div class="modal-ov" id="addUserModal" onclick="if(event.target===this){closeModal('addUserModal')}">
+  <div class="modal" style="max-width:620px;width:95%;">
+    <div class="modal-hd"><div class="modal-title">➕ تسجيل مستخدم جديد</div><button class="modal-close" onclick="closeModal('addUserModal')">✕</button></div>
+    <div style="display:flex;gap:7px;margin-bottom:18px;"><button class="role-tab active" id="mRoleAdmin" onclick="setModalRole('admin',this)">👑 مدير</button><button class="role-tab" id="mRoleSubuser" onclick="setModalRole('subuser',this)">👤 موظف</button></div>
+    <input type="hidden" id="newUserRole" value="admin"/>
+    <div class="g2"><div class="fg" style="margin-bottom:10px;"><label class="lbl">اسم المؤسسة <span class="req">*</span></label><input class="inp" id="newUserOrg" placeholder="مثال: شركة الأفق"/></div><div class="fg" style="margin-bottom:10px;"><label class="lbl">الاسم الكامل <span class="req">*</span></label><input class="inp" id="newUserName" placeholder="الاسم الثلاثي"/></div><div class="fg" style="margin-bottom:10px;"><label class="lbl">رقم الهوية الوطنية <span class="req">*</span></label><input class="inp" id="newUserNatId" placeholder="10xxxxxxxx" inputmode="numeric" maxlength="10" style="direction:ltr;letter-spacing:3px;font-weight:700;"/></div><div class="fg" style="margin-bottom:10px;"><label class="lbl">رقم الجوال <span class="req">*</span></label><input class="inp" id="newUserPhone" placeholder="05xxxxxxxx" inputmode="numeric" maxlength="10" class="u-ltr"/></div><div class="fg" style="margin-bottom:0;grid-column:1/-1;"><label class="lbl">البريد الإلكتروني <span class="req">*</span></label><input class="inp" id="newUserEmail" placeholder="user@example.com" type="email" class="u-ltr"/></div></div>
+    <div class="g2" style="margin-top:12px;"><div class="fg" style="margin-bottom:0;"><label class="lbl">اسم المستخدم <span class="req">*</span></label><input class="inp" id="newUserUsername" placeholder="username" class="u-ltr" oninput="this.value=this.value.replace(/[^a-zA-Z0-9._@-]/g,'')" maxlength="30"/></div><div class="fg" style="margin-bottom:0;"><label class="lbl">كلمة المرور <span class="req">*</span></label><div style="position:relative;"><input class="inp" id="newUserPass" type="password" placeholder="••••••••" style="padding-left:40px;"/><span onclick="togglePassVis('newUserPass',this)" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:14px;color:var(--s400);">👁</span></div><button type="button" onclick="autoFillPass('newUserPass')" style="background:none;border:none;cursor:pointer;font-size:10.5px;color:var(--b600);font-family:Cairo,sans-serif;font-weight:700;margin-top:3px;">🎲 توليد تلقائي</button></div></div>
+    <!-- قسم الشعار المخصص — يظهر فقط عند اختيار دور موظف -->
+    <div id="newUserLogoSection" style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:none;">
+      <label class="lbl" style="margin-bottom:8px;display:block;">🖼️ شعار مخصص للموظف <span style="font-size:10px;color:var(--s400);font-weight:400;">(اختياري — يختلف عن شعار النظام)</span></label>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
+        <div style="width:52px;height:52px;border-radius:10px;background:var(--b100);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:24px;overflow:hidden;flex-shrink:0;">
+          <span id="newUserLogoPreviewEmoji">👤</span>
+          <img id="newUserLogoPreviewImg" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:8px;" loading="lazy">
+        </div>
+        <div style="flex:1;">
+          <input class="inp" type="url" id="newUserLogoUrl" placeholder="https://... رابط الشعار (اختياري)" style="direction:ltr;font-size:12px;margin-bottom:6px;" oninput="previewNewUserLogo('url',this.value)"/>
+          <div style="display:flex;gap:6px;">
+            <label style="flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:6px;border:1px dashed var(--border);border-radius:7px;cursor:pointer;font-size:11.5px;color:var(--b600);font-family:Cairo,sans-serif;font-weight:600;">
+              📁 رفع صورة<input type="file" accept="image/*" style="display:none;" onchange="previewNewUserLogo('file',this)">
+            </label>
+            <button class="btn btn-danger btn-sm" onclick="clearNewUserLogo()" style="padding:6px 12px;">🗑 حذف</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex gap-3" style="margin-top:16px;"><button class="btn btn-primary u-flex1" onclick="saveUser()">✅ حفظ وتسجيل</button><button class="btn btn-outline u-flex1" onclick="closeModal('addUserModal')">إلغاء</button></div>
+  </div>
+</div>
+<div class="modal-ov" id="editUserModal" onclick="if(event.target===this){closeModal('editUserModal')}">
+  <div class="modal" style="max-width:600px;width:95%;">
+    <div class="modal-hd"><div class="modal-title">✏️ تعديل بيانات المستخدم</div><button class="modal-close" onclick="closeModal('editUserModal')">✕</button></div>
+    <div class="g2"><div class="fg" style="margin-bottom:10px;"><label class="lbl">اسم المؤسسة</label><input class="inp" id="editOrg"/></div><div class="fg" style="margin-bottom:10px;"><label class="lbl">الاسم الكامل <span class="req">*</span></label><input class="inp" id="editName"/></div><div class="fg" style="margin-bottom:10px;"><label class="lbl">رقم الهوية</label><input class="inp" id="editNatId" maxlength="10" style="direction:ltr;letter-spacing:3px;font-weight:700;"/></div><div class="fg" style="margin-bottom:10px;"><label class="lbl">رقم الجوال</label><input class="inp" id="editPhone" class="u-ltr"/></div><div class="fg" style="margin-bottom:10px;"><label class="lbl">اسم المستخدم <span class="req">*</span></label><input class="inp" id="editUsername" placeholder="username" class="u-ltr" maxlength="30" oninput="this.value=this.value.replace(/[^a-zA-Z0-9._@-]/g,'')"/></div><div class="fg" style="margin-bottom:0;"><label class="lbl">البريد الإلكتروني</label><input class="inp" id="editEmail" type="email" class="u-ltr"/></div></div>
+    <div class="g2" style="margin-top:12px;"><div class="fg" style="margin-bottom:0;"><label class="lbl">الدور</label><select class="inp" id="editRole"><option value="admin">👑 مدير</option><option value="subuser">👤 موظف</option></select></div><div class="fg" style="margin-bottom:0;"><label class="lbl">الحالة</label><select class="inp" id="editStatus"><option value="active">✅ نشط</option><option value="inactive">⛔ موقوف</option></select></div></div>
+    <input type="hidden" id="editUserIdModal"/>
+    <!-- قسم الشعار المخصص للموظف — يظهر فقط عند تعديل موظف -->
+    <div id="editUserLogoSection" style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:none;">
+      <label class="lbl" style="margin-bottom:8px;display:block;">🖼️ شعار مخصص للموظف <span style="font-size:10px;color:var(--s400);font-weight:400;">(مختلف عن شعار النظام)</span></label>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+        <div style="width:52px;height:52px;border-radius:10px;background:var(--b100);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:24px;overflow:hidden;flex-shrink:0;" id="editUserLogoPreviewWrap">
+          <span id="editUserLogoPreviewEmoji">👤</span>
+          <img id="editUserLogoPreviewImg" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:8px;" loading="lazy">
+        </div>
+        <div style="flex:1;">
+          <input class="inp" type="url" id="editUserLogoUrl" placeholder="https://... رابط الشعار" style="direction:ltr;font-size:12px;margin-bottom:6px;" oninput="previewEditUserLogo('url',this.value)"/>
+          <div style="display:flex;gap:6px;">
+            <label style="flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:6px;border:1px dashed var(--border);border-radius:7px;cursor:pointer;font-size:11.5px;color:var(--b600);font-family:Cairo,sans-serif;font-weight:600;">
+              📁 رفع صورة<input type="file" accept="image/*" style="display:none;" onchange="previewEditUserLogo('file',this)">
+            </label>
+            <button class="btn btn-danger btn-sm" onclick="clearEditUserLogo()" style="padding:6px 12px;">🗑 حذف</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+      <button class="btn btn-warn" style="width:100%;font-size:13px;" onclick="openResetPassFromEdit()">🔑 تغيير كلمة المرور</button>
+    </div>
+    <div class="flex gap-3" style="margin-top:12px;"><button class="btn btn-primary u-flex1" onclick="saveEditUser()">💾 حفظ</button><button class="btn btn-outline u-flex1" onclick="closeModal('editUserModal')">إلغاء</button></div>
+  </div>
+</div>
+<div class="modal-ov" id="resetPassModal" onclick="if(event.target===this){closeModal('resetPassModal')}">
+  <div class="modal" style="max-width:420px;width:95%;">
+    <div class="modal-hd"><div class="modal-title">🔑 إعادة ضبط كلمة المرور</div><button class="modal-close" onclick="closeModal('resetPassModal')">✕</button></div>
+    <div style="background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.22);border-radius:var(--r);padding:11px 13px;margin-bottom:14px;font-size:12.5px;color:#92400e;">⚠️ تغيير كلمة مرور: <strong id="resetUserName">—</strong></div>
+    <div class="fg"><label class="lbl">كلمة المرور الجديدة <span class="req">*</span></label><div style="position:relative;"><input class="inp" id="newResetPass" maxlength="64" type="password" placeholder="كلمة المرور الجديدة" style="padding-left:40px;"/><span onclick="togglePassVis('newResetPass',this)" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:14px;color:var(--s400);">👁</span></div></div>
+    <div class="fg"><label class="lbl">تأكيد <span class="req">*</span></label><input class="inp" id="confirmResetPass" maxlength="64" type="password" placeholder="أعد كتابة كلمة المرور"/></div>
+    <button class="btn btn-secondary btn-sm" style="margin-bottom:12px;" onclick="suggestPass()">🎲 توليد</button>
+    <input type="hidden" id="resetUserId"/>
+    <div class="flex gap-3"><button class="btn btn-primary u-flex1" onclick="doResetPass()">🔑 تطبيق</button><button class="btn btn-outline u-flex1" onclick="closeModal('resetPassModal')">إلغاء</button></div>
+  </div>
+</div>
+<div class="modal-ov" id="changeMyPassModal" onclick="if(event.target===this){closeModal('changeMyPassModal')}">
+  <div class="modal" style="max-width:420px;width:95%;">
+    <div class="modal-hd"><div class="modal-title">🔑 تغيير كلمة المرور</div><button class="modal-close" onclick="closeModal('changeMyPassModal')">✕</button></div>
+    <div class="fg"><label class="lbl">كلمة المرور الحالية <span class="req">*</span></label><input class="inp" id="currentPass" maxlength="64" type="password"/></div>
+    <div class="fg"><label class="lbl">كلمة المرور الجديدة <span class="req">*</span></label><div style="position:relative;"><input class="inp" id="newMyPass" maxlength="64" type="password" style="padding-left:40px;"/><span onclick="togglePassVis('newMyPass',this)" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:14px;color:var(--s400);">👁</span></div></div>
+    <div class="fg"><label class="lbl">تأكيد <span class="req">*</span></label><input class="inp" id="confirmMyPass" maxlength="64" type="password"/></div>
+    <div class="flex gap-3"><button class="btn btn-primary u-flex1" onclick="doChangeMyPass()">🔑 تغيير</button><button class="btn btn-outline u-flex1" onclick="closeModal('changeMyPassModal')">إلغاء</button></div>
+  </div>
+</div>
+<div class="modal-ov" id="deleteFileModal" onclick="if(event.target===this){closeModal('deleteFileModal')}">
+  <div class="modal" style="max-width:400px;width:92%;text-align:center;">
+    <div style="width:56px;height:56px;background:rgba(239,68,68,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 14px;">🗑</div>
+    <div style="font-size:17px;font-weight:800;color:var(--s800);margin-bottom:6px;">تأكيد الحذف</div>
+    <div id="deleteFileName" style="font-size:14px;font-weight:700;color:var(--err);background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.18);border-radius:9px;padding:8px 16px;margin-bottom:18px;word-break:break-all;"></div>
+    <div class="flex gap-3"><button class="btn btn-outline u-flex1" onclick="closeModal('deleteFileModal')">إلغاء</button><button class="btn btn-danger" style="flex:1;background:var(--err);color:#fff;" onclick="confirmDeleteFile()">🗑 نعم، احذف</button></div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="app_final.js"></script>
+<div class="modal-ov" id="confirmModal">
+  <div class="modal" style="max-width:420px;width:92%;text-align:center;padding:28px 24px;">
+    <div id="confirmModalIcon" style="font-size:38px;margin-bottom:10px;">⚠️</div>
+    <div id="confirmModalMsg" style="font-size:15px;font-weight:700;color:var(--s800);margin-bottom:20px;line-height:1.7;"></div>
+    <div style="display:flex;gap:10px;justify-content:center;">
+      <button class="btn btn-outline" id="confirmModalCancel" onclick="closeConfirmModal()" style="min-width:90px;">إلغاء</button>
+      <button class="btn btn-primary" id="confirmModalOk" style="min-width:90px;">تأكيد</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ INBOX MODAL ══════════════ -->
+<div class="inbox-ov" id="inboxModal" onclick="if(event.target===this)closeInbox()">
+  <div class="inbox-mod">
+    <div class="inbox-hd">
+      <span style="font-size:20px;">📩</span>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:700;color:var(--s800);">الرسائل الداخلية</div>
+        <div style="font-size:11px;color:var(--s400);" id="inboxUserLbl"></div>
+      </div>
+      <button onclick="closeInbox()" style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--s400);" title="إغلاق">✕</button>
+    </div>
+    <div class="inbox-tabs-bar">
+      <button class="inbox-tab-btn active" id="iTabInbox"  onclick="setInboxTab('inbox',this)">📥 الوارد <span id="inboxUnread" style="display:none;background:#ef4444;color:#fff;border-radius:20px;padding:1px 6px;font-size:9px;margin-right:3px;font-weight:800;"></span></button>
+      <button class="inbox-tab-btn" id="iTabSent"   onclick="setInboxTab('sent',this)">📤 المُرسَل</button>
+      <button class="inbox-tab-btn" id="iTabCompose" onclick="setInboxTab('compose',this)">✏️ رسالة جديدة</button>
+    </div>
+    <div class="inbox-scrl" id="inboxScrl"></div>
+    <div class="inbox-compose-bar" id="inboxComposeBar" style="display:none">
+      <div class="inbox-compose-inner">
+        <div>
+          <label style="font-size:11.5px;font-weight:700;color:var(--s600);display:block;margin-bottom:4px;">إلى <span style="font-size:10px;color:var(--s400);font-weight:500;">(يمكن اختيار أكثر من شخص)</span></label>
+          <div id="inboxToCheckboxes" style="display:flex;flex-wrap:wrap;gap:7px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);min-height:42px;"></div>
+          <select id="inboxToSel" style="display:none;"></select>
+        </div>
+        <div><label style="font-size:11.5px;font-weight:700;color:var(--s600);display:block;margin-bottom:4px;">الموضوع</label>
+          <input id="inboxSubj" type="text" maxlength="120" placeholder="موضوع الرسالة..." style="width:100%;box-sizing:border-box;font-family:Cairo,sans-serif;font-size:13px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--s800);"></div>
+        <div><label style="font-size:11.5px;font-weight:700;color:var(--s600);display:block;margin-bottom:4px;">الرسالة</label>
+          <textarea id="inboxBody" rows="4" maxlength="1200" placeholder="اكتب رسالتك..." style="width:100%;box-sizing:border-box;font-family:Cairo,sans-serif;font-size:13px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--s800);resize:vertical;"></textarea></div>
+        <button onclick="doSendInboxMsg()" style="background:linear-gradient(135deg,var(--b500),var(--b700));color:#fff;border:none;border-radius:9px;padding:10px 26px;font-family:Cairo,sans-serif;font-size:13px;font-weight:700;cursor:pointer;align-self:flex-start;transition:opacity .18s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">📤 إرسال الرسالة</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- HELP GUIDE MODAL -->
+<div class="modal-ov" id="helpGuideModal" style="z-index:9990;">
+  <div style="background:var(--card,#fff);border-radius:18px;width:min(740px,96vw);max-height:90vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.25);overflow:hidden;">
+    <div style="display:flex;align-items:center;gap:12px;padding:18px 22px 14px;border-bottom:1px solid var(--border,#e2e8f0);background:linear-gradient(135deg,#eff6ff,#dbeafe);flex-shrink:0;">
+      <div style="width:44px;height:44px;background:linear-gradient(135deg,#3b82f6,#1d4ed8);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">📖</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:16px;font-weight:800;color:#1e3a8a;font-family:Cairo,sans-serif;">دليل الاستخدام</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
+          <span id="hmRoleBadge" style="font-size:10.5px;font-weight:700;background:#1d4ed8;color:#fff;padding:2px 10px;border-radius:20px;"></span>
+          <span id="hmSubtitle" style="font-size:11px;color:#3b82f6;font-weight:500;"></span>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;flex-shrink:0;">
+        <button onclick="printHelpGuide()" style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:7px 12px;cursor:pointer;font-size:13px;color:#1d4ed8;font-family:Cairo,sans-serif;font-weight:700;">🖨️ طباعة</button>
+        <button onclick="closeHelpGuide()" style="background:none;border:1px solid #e2e8f0;border-radius:8px;padding:7px 12px;cursor:pointer;font-size:18px;color:#64748b;" title="إغلاق">✕</button>
+      </div>
+    </div>
+    <!-- ── Tabs ── -->
+    <div id="hmTabs" style="display:flex;gap:2px;padding:8px 16px 0;border-bottom:1px solid var(--border,#e2e8f0);overflow-x:auto;flex-shrink:0;background:var(--card,#fff);"></div>
+    <div id="hmContent" style="flex:1;overflow-y:auto;padding:20px 22px;"></div>
+  </div>
+</div>
+</body>
+<!-- PWA: أضف هذا السطر الأخير -->
+<script src="./pwa.js"></script>
+</body>
+</html>

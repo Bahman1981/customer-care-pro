@@ -1,0 +1,291 @@
+/* ══════════════════════════════════════════════════════════════
+   Customer Care System — PWA Mobile CSS Enhancements
+   أضف: <link rel="stylesheet" href="pwa.css"> في index.html
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── وضع PWA المثبّت ── */
+[data-pwa="true"] .topbar {
+  padding-top: env(safe-area-inset-top);
+  height: calc(60px + env(safe-area-inset-top));
+}
+[data-pwa="true"] .main {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+[data-pwa="true"] .sidebar {
+  padding-top: env(safe-area-inset-top);
+}
+[data-pwa="true"] .auto-logout-bar {
+  padding-bottom: calc(10px + env(safe-area-inset-bottom));
+}
+[data-pwa="true"] .toast-wrap {
+  bottom: calc(22px + env(safe-area-inset-bottom));
+}
+
+/* ── تحسين Touch Targets (Apple HIG: min 44px) ── */
+@media (hover: none) and (pointer: coarse) {
+  .btn, .nav-item, .filter-tab, .role-tab {
+    min-height: 44px;
+  }
+  .btn-sm {
+    min-height: 36px;
+    padding: 8px 14px;
+  }
+  .inp, input, textarea, select {
+    min-height: 44px;
+    font-size: 16px !important; /* يمنع تكبير iOS */
+  }
+  .nav-item {
+    padding: 12px 14px;
+  }
+  /* أزرار أكشن الجداول */
+  .act-btn {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  /* checkbox أكبر */
+  .row-check, input[type="checkbox"] {
+    width: 20px !important;
+    height: 20px !important;
+    min-height: unset !important;
+  }
+}
+
+/* ── تحسين القائمة الجانبية على الجوال ── */
+@media (max-width: 767px) {
+  .sidebar {
+    width: 280px;
+    /* تحسين الـ animation */
+    transition: transform .28s cubic-bezier(.4, 0, .2, 1);
+    will-change: transform;
+  }
+  
+  /* overlay أكثر وضوحاً */
+  .mob-overlay.active {
+    background: rgba(0, 0, 0, .6);
+    backdrop-filter: blur(4px);
+  }
+  
+  /* إخفاء اسم الدور في الـ topbar لتوفير مساحة */
+  .topbar-actions .role-badge {
+    display: none;
+  }
+  
+  /* جعل أزرار الـ topbar أصغر */
+  .topbar-actions .btn.btn-danger {
+    display: none; /* يُستبدل بزر الخروج في القائمة الجانبية */
+  }
+  
+  /* تحسين بطاقات الإحصائيات */
+  .stat {
+    padding: 14px;
+  }
+  .stat-val {
+    font-size: 26px;
+  }
+  
+  /* تحسين نموذج البحث */
+  .adv-search-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .adv-search-row .inp {
+    width: 100%;
+  }
+  .adv-search-row .btn-lg {
+    width: 100%;
+    min-height: 48px;
+    font-size: 15px;
+  }
+  
+  /* تحسين بطاقة نتيجة البحث */
+  .res-result {
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .res-person {
+    padding: 14px;
+  }
+  
+  /* تحسين الـ modals */
+  .modal {
+    border-radius: 20px 20px 0 0 !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 85vh;
+    margin: 0;
+    animation: _modalSlideUp .3s cubic-bezier(.34, 1.56, .64, 1) !important;
+  }
+  @keyframes _modalSlideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  .modal-ov {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+  
+  /* Bottom bar للتنقل السريع (عناصر رئيسية) */
+  .pwa-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    background: var(--b950, #172554);
+    border-top: 1px solid rgba(255,255,255,.08);
+    padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .pwa-bottom-nav .nav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 6px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: rgba(255,255,255,.5);
+    font-family: 'Cairo', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    transition: all .2s;
+    border: none;
+    background: none;
+    min-width: 60px;
+  }
+  .pwa-bottom-nav .nav-btn.active {
+    color: #60a5fa;
+    background: rgba(59,130,246,.15);
+  }
+  .pwa-bottom-nav .nav-btn svg,
+  .pwa-bottom-nav .nav-btn span.icon {
+    font-size: 20px;
+  }
+  
+  /* تعديل page-body ليترك مساحة للـ bottom nav */
+  .page-body {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom)) !important;
+  }
+  
+  /* تحسين واجهة واتساب */
+  .wa-scope .wa-main {
+    padding: 12px 10px;
+  }
+  .wa-scope .toolbar {
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .wa-scope .wa-btn {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+  .wa-scope .wa-search-box {
+    width: 100%;
+    order: 10; /* يظهر آخراً */
+  }
+  .wa-scope .wa-search-box input {
+    width: 100%;
+  }
+  
+  /* تحسين حقل إدخال الهوية في بوابة العملاء */
+  .id-giant {
+    font-size: 22px !important;
+    letter-spacing: 3px !important;
+    padding: 16px !important;
+  }
+}
+
+/* ── تحسينات إضافية للشاشات الصغيرة جداً ── */
+@media (max-width: 360px) {
+  .stat-val { font-size: 22px; }
+  .topbar { height: 50px; }
+  .topbar-title h2 { font-size: 13px; }
+  .pwa-bottom-nav .nav-btn { min-width: 50px; font-size: 9px; }
+}
+
+/* ── وضع Landscape على الجوال ── */
+@media (max-width: 767px) and (orientation: landscape) {
+  .pwa-bottom-nav { display: none; }
+  .page-body { padding-bottom: 14px !important; }
+  .sidebar {
+    width: 220px;
+  }
+}
+
+/* ── تحسين الـ Pull to Refresh ── */
+.pwa-ptr {
+  position: fixed;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--b700, #1d4ed8);
+  color: #fff;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  z-index: 9999;
+  transition: top .3s;
+  box-shadow: 0 4px 16px rgba(37,99,235,.4);
+}
+.pwa-ptr.visible { top: calc(16px + env(safe-area-inset-top)); }
+.pwa-ptr.refreshing { animation: _ptrSpin 1s linear infinite; }
+@keyframes _ptrSpin { to { transform: translateX(-50%) rotate(360deg); } }
+
+/* ── Skeleton loading أسرع على الجوال ── */
+@media (max-width: 767px) {
+  @keyframes sk-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  .sk-line {
+    background-size: 200% 100%;
+    animation-duration: 1s !important;
+  }
+}
+
+/* ── Active state للأزرار على الجوال ── */
+@media (hover: none) {
+  .btn:active { opacity: .75; transform: scale(.97); }
+  .nav-item:active { background: rgba(255,255,255,.1) !important; }
+  .card:hover { box-shadow: var(--sh1) !important; } /* إيقاف hover effect */
+  .stat:hover { transform: none !important; }
+}
+
+/* ── تحسين الـ focus للـ accessibility ── */
+:focus-visible {
+  outline: 2px solid var(--b400, #60a5fa);
+  outline-offset: 2px;
+}
+
+/* ── تحسين الجداول على الجوال ── */
+@media (max-width: 767px) {
+  .tbl-wrap {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+    border-radius: 12px;
+  }
+  
+  /* إظهار hint للتمرير أفقياً */
+  .tbl-wrap::after {
+    content: '← اسحب للتمرير →';
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    color: var(--s400);
+    padding: 6px;
+    font-family: 'Cairo', sans-serif;
+  }
+  
+  /* تصغير خلايا الجداول */
+  td, th { padding: 8px 10px !important; font-size: 12px !important; }
+}
